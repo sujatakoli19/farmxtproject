@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Order Confirmation | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-confirm_order">
+
+
+<div class="container">
+
+    <img src="logo.jpg" class="logo" alt="FarmXT Logo">
+
+
+    <div class="success">
+
+        <h1>✅ Order Placed Successfully!</h1>
+
+        <p>Thank you for shopping with FarmXT.</p>
+
+    </div>
+
+
+    <div class="order-box">
+
+        <h2>📦 Order Details</h2>
+
+
+        <div class="detail">
+
+            <span class="label">Order ID</span>
+
+            <span class="value" id="orderId"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">🌾 Product</span>
+
+            <span class="value" id="productName"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">👨‍🌾 Farmer</span>
+
+            <span class="value" id="farmerName"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">📦 Quantity</span>
+
+            <span class="value" id="quantity"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">💰 Price</span>
+
+            <span class="value" id="price"></span>
+
+        </div>
+
+
+        <!-- Dynamic Offer -->
+
+        <div id="offerSection" class="offer-box hidden">
+
+            <h3>🎁 Special Offer Applied</h3>
+
+            <div class="offer-title" id="offerTitle"></div>
+
+            <div class="offer-note" id="offerDescription"></div>
+
+        </div>
+
+
+        <!-- Free Product -->
+
+        <div id="freeProductSection" class="free-product-box hidden">
+
+            <div class="detail">
+
+                <span class="label">🎁 Free Product</span>
+
+                <span class="value free-item" id="freeProduct"></span>
+
+            </div>
+
+            <div class="detail">
+
+                <span class="label">📦 Free Quantity</span>
+
+                <span class="value free-item" id="freeQuantity"></span>
+
+            </div>
+
+            <div class="offer-note">
+
+                This item is included free with your order.
+
+            </div>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">💵 Total Amount Paid</span>
+
+            <span class="value total" id="total"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">👤 Customer</span>
+
+            <span class="value" id="customerName"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">📍 Delivery Address</span>
+
+            <span class="value" id="address"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">💳 Payment Method</span>
+
+            <span class="value" id="paymentMethod"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">📅 Order Date</span>
+
+            <span class="value" id="date"></span>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="label">Order Status</span>
+
+            <span class="value">
+
+                <span class="status" id="status"></span>
+
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="buttons">
+
+        <a href="market_place.html" class="btn">
+            🛒 Continue Shopping
+        </a>
+
+        <a href="client_orders.html" class="btn">
+            📦 My Orders
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================
+   GET CURRENT CUSTOMER
+========================================= */
+
+let currentUser =
+    JSON.parse(localStorage.getItem("currentClient")) || null;
+
+
+/* =========================================
+   GET ORDERS
+========================================= */
+
+let orders =
+    JSON.parse(localStorage.getItem("orders")) || [];
+
+
+/* =========================================
+   FIND LATEST ORDER FOR CURRENT CUSTOMER
+========================================= */
+
+let order = null;
+
+if(currentUser){
+
+    /*
+       Prefer buyerId because buy.html stores
+       the current customer's ID there.
+    */
+
+    let customerOrders = orders.filter(function(item){
+
+        return String(item.buyerId || "") ===
+               String(currentUser.mobile || "");
+
+    });
+
+
+    if(customerOrders.length > 0){
+
+        order =
+            customerOrders[customerOrders.length - 1];
+
+    }
+
+}
+
+
+/*
+   Fallback:
+   If the current customer's order cannot be matched,
+   use the latest order only when there is exactly one
+   order available.
+*/
+
+if(!order && orders.length === 1){
+
+    order = orders[0];
+
+}
+
+
+/* =========================================
+   NO ORDER FOUND
+========================================= */
+
+if(!order){
+
+    document.querySelector(".container").innerHTML = `
+
+        <div class="success">
+
+            <h1>❌ No Order Found</h1>
+
+            <p>
+                We could not find your recent order.
+            </p>
+
+            <br>
+
+            <a href="market_place.html" class="btn">
+                Back to Marketplace
+            </a>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================
+   DISPLAY ORDER
+========================================= */
+
+else{
+
+
+    /* Create Order ID if missing */
+
+    let orderId =
+        order.orderId ||
+        "FXT" + Date.now();
+
+
+    if(!order.orderId){
+
+        order.orderId = orderId;
+
+        let index =
+            orders.indexOf(order);
+
+        if(index !== -1){
+
+            orders[index] = order;
+
+            localStorage.setItem(
+                "orders",
+                JSON.stringify(orders)
+            );
+
+        }
+
+    }
+
+
+    /* Basic order information */
+
+    document.getElementById("orderId").innerText =
+        orderId;
+
+
+    document.getElementById("productName").innerText =
+        order.productName || "Not Available";
+
+
+    document.getElementById("farmerName").innerText =
+        order.farmerName || "Not Available";
+
+
+    document.getElementById("quantity").innerText =
+        (order.quantity || 0) + " Kg";
+
+
+    document.getElementById("price").innerText =
+        "₹" + Number(order.price || 0) + " / Kg";
+
+
+    document.getElementById("total").innerText =
+        "₹" + Number(order.total || 0);
+
+
+    document.getElementById("customerName").innerText =
+        order.customerName ||
+        currentUser?.name ||
+        "Not Available";
+
+
+    document.getElementById("address").innerText =
+        order.address || "Not Available";
+
+
+    document.getElementById("paymentMethod").innerText =
+        order.paymentMethod || "Not Available";
+
+
+    document.getElementById("date").innerText =
+        order.date || "Not Available";
+
+
+    document.getElementById("status").innerText =
+        order.status || "Pending";
+
+
+    /* =========================================
+       DYNAMIC OFFER INFORMATION
+    ========================================= */
+
+    if(order.offerApplied === true){
+
+        let offerSection =
+            document.getElementById("offerSection");
+
+        offerSection.classList.remove("hidden");
+
+
+        document.getElementById("offerTitle").innerText =
+            order.offerTitle ||
+            "Special offer applied";
+
+
+        /*
+           Show a description only when
+           free-item information exists.
+        */
+
+        if(order.freeItem){
+
+            document.getElementById("offerDescription").innerText =
+                "You qualified for a free product with this purchase.";
+
+        }
+        else{
+
+            document.getElementById("offerDescription").innerText =
+                "A special offer was applied to this order.";
+
+        }
+
+    }
+
+
+    /* =========================================
+       FREE PRODUCT
+    ========================================= */
+
+    if(order.freeItem){
+
+        let freeProductSection =
+            document.getElementById("freeProductSection");
+
+        freeProductSection.classList.remove("hidden");
+
+
+        let freeItem = order.freeItem;
+
+
+        document.getElementById("freeProduct").innerText =
+            freeItem.product ||
+            freeItem.name ||
+            "Free Product";
+
+
+        document.getElementById("freeQuantity").innerText =
+            (freeItem.quantity || 1) + " Kg";
+
+    }
+
+
+}
+
+</script>
+
+</body>
+
+</html>
