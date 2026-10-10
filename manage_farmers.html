@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Farmers | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-manage_farmers">
+
+<header class="navbar">
+
+<div class="logo-section">
+
+<img src="logo.jpg" class="logo">
+
+<h2>FarmXT Admin</h2>
+
+</div>
+
+<a href="admin_dashboard.html" class="back-btn">⬅ Dashboard</a>
+
+</header>
+
+<section class="heading">
+
+<h1>👨‍🌾 Manage Farmers</h1>
+
+<p>View, edit and remove registered farmers.</p>
+<button onclick="window.location.href='manage_farmers.html'"></button>
+
+</section>
+
+<div class="table-container">
+
+<table id="farmerTable">
+
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Village</th>
+<th>Main Crop</th>
+<th>Actions</th>
+</tr>
+
+
+</table>
+
+</div>
+
+<div class="footer">
+
+© 2026 FarmXT Admin Panel
+
+</div>
+
+<script>
+
+
+
+let farmers = JSON.parse(localStorage.getItem("farmers")) || [];
+
+displayFarmers();
+
+function displayFarmers(){
+
+    let body = document.getElementById("farmerBody");
+
+    body.innerHTML = "";
+
+    if(farmers.length==0){
+
+        body.innerHTML = `
+        <tr>
+        <td colspan="6" style="padding:30px;">
+        No farmers have registered yet.
+        </td>
+        </tr>
+        `;
+
+        return;
+    }
+
+    farmers.forEach((farmer,index)=>{
+
+        body.innerHTML += `
+        <tr>
+
+        <td>${farmer.id}</td>
+
+        <td>${farmer.name}</td>
+
+        <td>${farmer.mobile}</td>
+
+        <td>${farmer.village}</td>
+
+        <td>${farmer.crop}</td>
+
+        <td>
+
+        <button class="edit" onclick="editFarmer(${index})">
+        Edit
+        </button>
+
+        <button class="delete" onclick="deleteFarmer(${index})">
+        Delete
+        </button>
+
+        </td>
+
+        </tr>
+        `;
+
+    });
+
+}
+
+function deleteFarmer(index){
+
+    if(confirm("Delete this farmer?")){
+
+        farmers.splice(index,1);
+
+        localStorage.setItem("farmers",JSON.stringify(farmers));
+
+        displayFarmers();
+
+    }
+
+}
+
+function editFarmer(index){
+
+    let farmer = farmers[index];
+
+    let name = prompt("Farmer Name", farmer.name);
+
+    if(name==null) return;
+
+    let mobile = prompt("Mobile", farmer.mobile);
+
+    if(mobile==null) return;
+
+    let village = prompt("Village", farmer.village);
+
+    if(village==null) return;
+
+    let crop = prompt("Main Crop", farmer.crop);
+
+    if(crop==null) return;
+
+    farmer.name = name;
+    farmer.mobile = mobile;
+    farmer.village = village;
+    farmer.crop = crop;
+
+    localStorage.setItem("farmers",JSON.stringify(farmers));
+
+    displayFarmers();
+
+    alert("Farmer Updated Successfully");
+
+}
+
+</script>
+
+</body>
+</html>
