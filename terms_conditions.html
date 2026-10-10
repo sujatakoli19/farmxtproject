@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terms & Conditions | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-terms_conditions">
+
+<header>
+
+<div class="logo">
+
+<img src="logo.jpg" alt="FarmXT Logo">
+
+<h2>FarmXT</h2>
+
+</div>
+
+<a href="final.html" class="back-btn">
+
+🏠 Back to Home
+
+</a>
+
+</header>
+
+<div class="container">
+
+<h1>📜 Terms & Conditions</h1>
+
+<p>
+
+Please read these Terms & Conditions carefully before using the FarmXT platform.
+
+</p>
+
+<div id="terms"></div>
+
+</div>
+
+<footer>
+
+© 2026 FarmXT | All Rights Reserved
+
+</footer>
+
+<script>
+
+// Default Terms
+
+const defaultTerms = `Welcome to FarmXT
+
+1. Farmers must provide genuine crop details and accurate profile information.
+
+2. Buyers must complete payments honestly and follow platform rules.
+
+3. Fraudulent activities, fake products, or misuse of the platform are strictly prohibited.
+
+4. Users must communicate respectfully with other members.
+
+5. FarmXT reserves the right to suspend or permanently remove accounts that violate platform policies.
+
+6. Product prices are determined by the seller unless otherwise specified.
+
+7. Transport and logistics charges may vary depending on distance and service provider.
+
+8. FarmXT is not responsible for delays or losses caused by natural disasters or third-party logistics providers.
+
+9. Users are responsible for maintaining the confidentiality of their login credentials.
+
+10. By using FarmXT, you agree to comply with all Terms & Conditions and future updates made by the platform administrator.`;
+
+// Load latest Terms saved by Admin
+
+let savedTerms = localStorage.getItem("termsConditions");
+
+if(savedTerms){
+
+document.getElementById("terms").textContent = savedTerms;
+
+}else{
+
+document.getElementById("terms").textContent = defaultTerms;
+
+}
+
+</script>
+
+</body>
+
+</html>
