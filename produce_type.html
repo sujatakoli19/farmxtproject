@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>FarmXT Produce Type</title>
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-produce_type">
+
+<div class="container">
+
+    <img src="logo.jpg" alt="FarmXT Logo" class="logo">
+
+
+    <h1>🌾 FarmXT Product Listing</h1>
+
+
+   
+<label>Farmer Name:</label>
+<input type="text" id="farmer" readonly>
+
+
+    <label>Product Name:</label>
+    <input type="text" id="product" placeholder="Enter product name">
+
+
+    <label>Price (₹ per Kg):</label>
+    <input type="number" id="price" placeholder="Enter price">
+
+
+    <label>Select Produce Type:</label>
+
+    <select id="produceType">
+
+        <option>Organic</option>
+        <option>Natural Farming</option>
+        <option>Conventional</option>
+
+    </select>
+    <label>Crop Photo:</label>
+
+<input
+type="file"
+id="cropImage"
+accept="image/*">
+
+
+    <button onclick="showProduct()">
+        🌱 Submit Product
+    </button>
+
+
+    <h2>Product Details</h2>
+
+    <div id="result"></div>
+
+
+</div>
+
+
+<script>
+   window.onload = function(){
+
+    let currentFarmer = JSON.parse(localStorage.getItem("currentFarmer"));
+
+    if(!currentFarmer){
+        alert("Please login first.");
+        window.location.href = "farmer_login.html";
+        return;
+    }
+
+    document.getElementById("farmer").value = currentFarmer.name;
+}
+function showProduct(){
+
+let currentFarmer = JSON.parse(localStorage.getItem("currentFarmer"));
+
+if(!currentFarmer){
+    alert("Please login first.");
+    window.location.href = "farmer_login.html";
+    return;
+    }
+
+    let farmer = currentFarmer.name;
+    let product = document.getElementById("product").value.trim();
+    let price = document.getElementById("price").value.trim();
+    let produceType = document.getElementById("produceType").value;
+    let imageFile = document.getElementById("cropImage").files[0];
+
+    if(farmer === "" || product === "" || price === ""){
+        alert("Please fill all required fields.");
+        return;
+    }
+
+    if(!imageFile){
+        alert("Please upload a crop photo.");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function(){
+
+        let crops = JSON.parse(localStorage.getItem("crops")) || [];
+
+  let crop = {
+    farmerId: currentFarmer.id,
+    farmerName: currentFarmer.name,
+    farmerMobile: currentFarmer.mobile,
+    product: product,
+    price: price,
+    produceType: produceType,
+    image: reader.result
+};
+
+        crops.push(crop);
+
+        localStorage.setItem("crops", JSON.stringify(crops));
+
+        document.getElementById("result").style.display = "block";
+
+        document.getElementById("result").innerHTML = `
+            <div class="title">🌱 Product Added Successfully</div>
+
+            <img src="${reader.result}"
+            style="width:180px;height:140px;
+            object-fit:cover;
+            border-radius:15px;
+            margin-bottom:15px;">
+
+            <br>
+
+            <strong>Farmer Name:</strong> ${farmer}<br>
+            <strong>Product:</strong> ${product}<br>
+            <strong>Price:</strong> ₹${price} per Kg<br>
+            <strong>Produce Type:</strong> ${produceType}
+        `;
+
+        setTimeout(function(){
+            window.location.href = "featured_listings.html";
+        },2000);
+
+    };
+
+    reader.readAsDataURL(imageFile);
+}
+</script>
+</body>
+</html>
