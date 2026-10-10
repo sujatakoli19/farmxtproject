@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FarmXT | Purchase Limit</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-purchase_limit">
+
+<header>
+
+<div class="logo">
+<img src="logo.jpg">
+<span>FarmXT</span>
+</div>
+
+<nav>
+
+<a href="final.html">Home</a>
+<a href="market_place.html">Marketplace</a>
+<a href="purchase_limit.html">Purchase Limit</a>
+<a href="contact.html">Contact</a>
+
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>📦 Product Purchase Limit</h2>
+
+<label>Select Product</label>
+
+<select id="product">
+<option>Tomato</option>
+<option>Potato</option>
+<option>Corn</option>
+<option>Spinach</option>
+</select>
+
+<label>Available Stock (Kg)</label>
+
+<input type="number" id="stock" value="100" readonly>
+
+<label>Enter Purchase Quantity (Kg)</label>
+
+<input type="number" id="qty">
+
+<button onclick="checkPurchase()">
+
+Purchase Product
+
+</button>
+
+<div id="result">
+
+Purchase status will appear here.
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+©2026 FarmXT | Purchase Limit
+
+</footer>
+
+<script>
+
+function checkPurchase(){
+
+let stock=Number(document.getElementById("stock").value);
+
+let qty=Number(document.getElementById("qty").value);
+
+if(qty==""){
+
+alert("Enter quantity");
+
+return;
+
+}
+
+if(qty<=0){
+
+alert("Quantity should be greater than zero");
+
+return;
+
+}
+
+if(qty>stock){
+
+document.getElementById("result").innerHTML=
+
+"<h3 style='color:red;'>❌ Purchase Failed</h3><p>Requested quantity exceeds available stock.</p>";
+
+return;
+
+}
+
+let remaining=stock-qty;
+
+document.getElementById("result").innerHTML=
+
+`
+<h3 style="color:#7CFC00;">✅ Purchase Successful</h3>
+
+<p><b>Purchased :</b> ${qty} Kg</p>
+
+<p><b>Remaining Stock :</b> ${remaining} Kg</p>
+
+`;
+
+document.getElementById("stock").value=remaining;
+
+document.getElementById("qty").value="";
+
+}
+
+</script>
+
+</body>
+
+</html>
