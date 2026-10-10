@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ration Shop Integration | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-ration_shop">
+
+<header class="navbar">
+
+<div class="logo-section">
+
+<img src="logo.jpg" class="logo">
+
+<h2>FarmXT</h2>
+
+</div>
+
+<a href="market_place.html" class="back-btn">
+⬅ Marketplace
+</a>
+
+</header>
+
+<div class="container">
+
+<h1>🏪 Ration Shop Integration</h1>
+
+<div class="details">
+
+<p><strong>Product :</strong> <span id="productName"></span></p>
+
+<p><strong>Original Price :</strong>
+₹<span id="originalPrice"></span> / Kg
+</p>
+
+</div>
+
+<label>Select Ration Card Type</label>
+
+<select id="cardType" onchange="calculatePrice()">
+
+<option value="">Select Card</option>
+
+<option value="Pink">Pink Card</option>
+
+<option value="White">White Card</option>
+
+<option value="None">No Ration Card</option>
+
+</select>
+
+<div class="price-box">
+
+<h2>Price Details</h2>
+
+<p>
+Original Price :
+₹<span id="price1"></span>
+</p>
+
+<p>
+Discount :
+₹<span id="discount">0</span>
+</p>
+
+<p>
+Final Price :
+₹<span id="finalPrice"></span>
+</p>
+
+</div>
+
+<button onclick="confirmOrder()">
+Place Order Through Ration Shop
+</button>
+
+</div>
+
+<script>
+
+let product=
+JSON.parse(localStorage.getItem("rationProduct"));
+
+document.getElementById("productName").innerHTML=product.name;
+
+document.getElementById("originalPrice").innerHTML=product.price;
+
+document.getElementById("price1").innerHTML=product.price;
+
+document.getElementById("finalPrice").innerHTML=product.price;
+
+function calculatePrice(){
+
+let card=document.getElementById("cardType").value;
+
+let price=parseFloat(product.price);
+
+let discount=0;
+
+if(card=="Pink"){
+
+discount=price*0.50;
+
+}
+
+else if(card=="White"){
+
+discount=price*0.25;
+
+}
+
+else{
+
+discount=0;
+
+}
+
+let finalPrice=price-discount;
+
+document.getElementById("discount").innerHTML=discount.toFixed(2);
+
+document.getElementById("finalPrice").innerHTML=finalPrice.toFixed(2);
+
+}
+
+function confirmOrder(){
+
+let card=document.getElementById("cardType").value;
+
+if(card==""){
+
+alert("Please select a ration card type.");
+
+return;
+
+}
+
+alert("Order placed successfully through Ration Shop.");
+
+window.location.href="post_success.html";
+
+}
+
+</script>
+
+</body>
+</html>
