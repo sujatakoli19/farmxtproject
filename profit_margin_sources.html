@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profit Margin Sources | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-profit_margin_sources">
+
+<header>
+
+<div class="logo">
+
+<img src="logo.jpg">
+
+<h2>FarmXT Admin</h2>
+
+</div>
+
+<a href="admin_dashboard.html" class="back-btn">
+← Back to Dashboard
+</a>
+
+</header>
+
+<div class="title">
+
+<h1>💰 Profit Margin Sources</h1>
+
+<p>
+This page displays FarmXT revenue generated from different business services.
+Revenue will appear automatically once users start using the platform.
+</p>
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h2>📢 Advertisement Revenue</h2>
+
+<div class="amount" id="adsRevenue">₹0</div>
+
+<p class="message">
+No advertisements purchased yet.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>💎 Subscription Revenue</h2>
+
+<div class="amount" id="subscriptionRevenue">₹0</div>
+<p class="message">
+No premium subscriptions yet.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🚚 Transport Revenue</h2>
+
+<div class="amount" id="transportRevenue">₹0</div>
+
+<p class="message">
+No transport bookings yet.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>📦 Logistics Revenue</h2>
+
+<div class="amount" id="logisticsRevenue">₹0</div>
+
+<p class="message">
+No logistics services booked yet.
+</p>
+
+</div>
+
+</div>
+
+<div class="total">
+
+<h2>💰 Total Profit</h2>
+<p id="totalProfit">₹0</p>
+<p class="note">
+The total profit will be calculated automatically when advertisements,
+premium subscriptions, transport bookings, and logistics services are
+used by platform users.
+</p>
+
+</div>
+
+<footer>
+
+© 2026 FarmXT | Profit Margin Sources
+
+</footer>
+<script>
+let adsRevenue = Number(localStorage.getItem("adsRevenue")) || 0;
+let subscriptionRevenue = Number(localStorage.getItem("subscriptionRevenue")) || 0;
+let transportRevenue = Number(localStorage.getItem("transportRevenue")) || 0;
+let logisticsRevenue = Number(localStorage.getItem("logisticsRevenue")) || 0;
+
+document.getElementById("adsRevenue").innerHTML = "₹" + adsRevenue;
+document.getElementById("subscriptionRevenue").innerHTML = "₹" + subscriptionRevenue;
+document.getElementById("transportRevenue").innerHTML = "₹" + transportRevenue;
+document.getElementById("logisticsRevenue").innerHTML = "₹" + logisticsRevenue;
+
+let total =
+adsRevenue +
+subscriptionRevenue +
+transportRevenue +
+logisticsRevenue;
+
+document.getElementById("totalProfit").innerHTML = "₹" + total;
+</script>
+</body>
+</html>
