@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FarmXT Marketplace</title>
+
+    
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-market_place">
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <div class="logo-section">
+
+        <img src="logo.jpg" class="logo" alt="FarmXT Logo">
+
+        <h2>FarmXT</h2>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Search products..."
+        >
+
+    </div>
+
+
+    <div class="nav-icons">
+
+        <a href="#" id="notificationLink">🔔</a>
+
+        <a href="favorites.html">
+            ❤️ Favorites
+        </a>
+
+        <a href="final.html" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO SECTION
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <h1>
+            Fresh From Farmers,
+            <br>
+            Direct To You
+        </h1>
+
+        <p>
+            Buy fresh fruits, vegetables and grains directly
+            from trusted farmers at fair prices.
+        </p>
+
+        <a href="#products" class="hero-btn">
+            Explore Products
+        </a>
+
+    </div>
+
+
+    <div class="hero-image">
+
+        <img
+            src="farmer.jpeg"
+            alt="Farmer"
+        >
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PRODUCTS
+===================================================== -->
+
+<section
+    class="products"
+    id="products"
+>
+
+    <h2>
+        Featured Products
+    </h2>
+
+
+    <div
+        class="product-container"
+        id="productContainer"
+    >
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+
+        <div class="footer-box">
+
+            <h3>🌾 FarmXT</h3>
+
+            <p>
+                Connecting farmers directly with consumers,
+                retailers, MSMEs and businesses to ensure
+                fair prices and better opportunities.
+            </p>
+
+        </div>
+
+
+        <div class="footer-box">
+
+            <h3>Quick Links</h3>
+
+            <a href="final.html">
+                Home
+            </a>
+
+            <a href="market_place.html">
+                Marketplace
+            </a>
+
+            <a href="community_network.html">
+                Community Network
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </div>
+
+
+        <div class="footer-box">
+
+            <h3>Contact</h3>
+
+            <p>
+                📧 support@farmxt.com
+            </p>
+
+            <p>
+                📍 Mumbai, Maharashtra
+            </p>
+
+        </div>
+
+
+        <div class="footer-box">
+
+            <h3>Follow Us</h3>
+
+            <p>
+                📘 Facebook
+            </p>
+
+            <p>
+                📸 Instagram
+            </p>
+
+            <p>
+                💼 LinkedIn
+            </p>
+
+            <p>
+                ▶ YouTube
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <hr>
+
+
+    <p class="copyright">
+
+        © 2026 FarmXT. All Rights Reserved.
+
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   FARMXT MARKETPLACE
+   COMPLETE FUNCTIONAL VERSION
+===================================================== */
+
+
+/* =====================================================
+   LOAD DATA
+===================================================== */
+
+let crops = [];
+
+let offers = [];
+
+let productContainer =
+    document.getElementById("productContainer");
+
+
+/* =====================================================
+   LOAD LOCAL STORAGE SAFELY
+===================================================== */
+
+function loadMarketplaceData() {
+
+    try {
+
+        const storedCrops =
+            localStorage.getItem("crops");
+
+        crops =
+            storedCrops
+                ? JSON.parse(storedCrops)
+                : [];
+
+        if (!Array.isArray(crops)) {
+
+            crops = [];
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Unable to load crops:",
+            error
+        );
+
+        crops = [];
+
+    }
+
+
+    try {
+
+        const storedOffers =
+            localStorage.getItem(
+                "farmxtOffers"
+            );
+
+        offers =
+            storedOffers
+                ? JSON.parse(storedOffers)
+                : [];
+
+        if (!Array.isArray(offers)) {
+
+            offers = [];
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Unable to load offers:",
+            error
+        );
+
+        offers = [];
+
+    }
+
+}
+
+
+/* =====================================================
+   GET CURRENT LOGGED-IN CLIENT
+===================================================== */
+
+function getLoggedInClient() {
+
+    try {
+
+        const clientData =
+            localStorage.getItem(
+                "currentClient"
+            );
+
+
+        if (!clientData) {
+
+            return null;
+
+        }
+
+
+        const client =
+            JSON.parse(clientData);
+
+
+        if (
+            !client ||
+            typeof client !== "object"
+        ) {
+
+            return null;
+
+        }
+
+
+        return client;
+
+    }
+    catch (error) {
+
+        console.error(
+            "Invalid currentClient data:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* =====================================================
+   REQUIRE CLIENT LOGIN
+===================================================== */
+
+function requireClientLogin() {
+
+    const client =
+        getLoggedInClient();
+
+
+    if (!client) {
+
+        alert(
+            "Please login as a customer before continuing."
+        );
+
+
+        window.location.href =
+            "client_login.html";
+
+
+        return null;
+
+    }
+
+
+    return client;
+
+}
+
+
+/* =====================================================
+   GET CLIENT UNIQUE ID
+===================================================== */
+
+function getClientId(client) {
+
+    if (!client) {
+
+        return null;
+
+    }
+
+
+    return (
+        client.id ||
+        client.clientId ||
+        client.customerId ||
+        client.email ||
+        client.username
+    );
+
+}
+
+
+/* =====================================================
+   GET ACTIVE OFFERS
+===================================================== */
+
+function getActiveOffers() {
+
+    const now =
+        new Date().getTime();
+
+
+    return offers.filter(
+        function (offer) {
+
+            if (
+                !offer ||
+                offer.status === false
+            ) {
+
+                return false;
+
+            }
+
+
+            const start =
+                new Date(
+                    offer.startDateTime
+                ).getTime();
+
+
+            const end =
+                new Date(
+                    offer.endDateTime
+                ).getTime();
+
+
+            if (
+                !Number.isFinite(start) ||
+                !Number.isFinite(end)
+            ) {
+
+                return false;
+
+            }
+
+
+            return (
+                now >= start &&
+                now <= end
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FIND OFFER FOR PRODUCT
+===================================================== */
+
+function getProductOffers(
+    productName
+) {
+
+    const activeOffers =
+        getActiveOffers();
+
+
+    return activeOffers.filter(
+        function (offer) {
+
+            return (
+                String(
+                    offer.buyProduct || ""
+                )
+                .trim()
+                .toLowerCase()
+                ===
+                String(
+                    productName || ""
+                )
+                .trim()
+                .toLowerCase()
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   DISPLAY PRODUCTS
+===================================================== */
+
+function displayProducts() {
+
+    productContainer.innerHTML = "";
+
+
+    if (
+        !Array.isArray(crops) ||
+        crops.length === 0
+    ) {
+
+        productContainer.innerHTML = `
+
+            <h2
+                style="
+                    color:white;
+                    text-align:center;
+                    width:100%;
+                "
+            >
+                No Products Available
+            </h2>
+
+        `;
+
+        return;
+
+    }
+
+
+    crops.forEach(
+        function (crop, index) {
+
+            if (
+                !crop ||
+                typeof crop !== "object"
+            ) {
+
+                return;
+
+            }
+
+
+            const productName =
+                crop.product ||
+                crop.name ||
+                "Product";
+
+
+            const farmerName =
+                crop.farmerName ||
+                crop.farmer ||
+                "FarmXT Farmer";
+
+
+            const produceType =
+                crop.produceType ||
+                crop.type ||
+                "Fresh Produce";
+
+
+            const price =
+                crop.price !== undefined &&
+                crop.price !== null &&
+                crop.price !== ""
+                    ? crop.price
+                    : "0";
+
+
+            const image =
+                crop.image ||
+                "farmer.jpeg";
+
+
+            const farmerId =
+                crop.farmerId ||
+                crop.farmerID ||
+                crop.ownerId ||
+                "";
+
+
+            const productOffers =
+                getProductOffers(
+                    productName
+                );
+
+
+            let offerHTML = "";
+
+
+            /* =============================================
+               ACTIVE OFFER
+            ============================================= */
+
+            if (
+                productOffers.length > 0
+            ) {
+
+                offerHTML =
+                    productOffers
+                    .map(
+                        function (offer) {
+
+                            const buyQuantity =
+                                offer.buyQuantity !== undefined
+                                    ? offer.buyQuantity
+                                    : "";
+
+
+                            const freeQuantity =
+                                offer.freeQuantity !== undefined
+                                    ? offer.freeQuantity
+                                    : "";
+
+
+                            const freeProduct =
+                                offer.freeProduct ||
+                                "Product";
+
+
+                            const freeUnit =
+                                offer.freeUnit ||
+                                "";
+
+
+                            return `
+
+                                <div class="offer-box">
+
+                                    <strong>
+                                        🎁
+                                        ${escapeHTML(
+                                            offer.offerTitle ||
+                                            "Special Offer"
+                                        )}
+                                    </strong>
+
+
+                                    <p>
+
+                                        Buy
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                String(
+                                                    buyQuantity
+                                                )
+                                            )}
+                                        </strong>
+
+                                        of this product
+
+                                    </p>
+
+
+                                    <p>
+
+                                        Get
+
+                                        <strong>
+
+                                            ${escapeHTML(
+                                                String(
+                                                    freeQuantity
+                                                )
+                                            )}
+
+                                            ${escapeHTML(
+                                                String(
+                                                    freeUnit
+                                                )
+                                            )}
+
+                                        </strong>
+
+                                        ${escapeHTML(
+                                            freeProduct
+                                        )}
+
+                                        FREE
+
+                                    </p>
+
+
+                                    <small>
+
+                                        Valid until:
+
+                                        ${formatOfferDate(
+                                            offer.endDateTime
+                                        )}
+
+                                    </small>
+
+                                </div>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+            }
+
+
+            /* =============================================
+               CREATE PRODUCT CARD
+            ============================================= */
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "product-card";
+
+
+            card.dataset.product =
+                productName
+                .toLowerCase();
+
+
+            card.innerHTML = `
+
+                <img
+                    src="${escapeAttribute(
+                        image
+                    )}"
+                    alt="${escapeAttribute(
+                        productName
+                    )}"
+                    onerror="
+                        this.onerror=null;
+                        this.src='farmer.jpeg';
+                    "
+                >
+
+
+                <h3>
+                    ${escapeHTML(
+                        productName
+                    )}
+                </h3>
+
+
+                <p>
+
+                    👨‍🌾 Farmer:
+
+                    ${escapeHTML(
+                        farmerName
+                    )}
+
+                </p>
+
+
+                <p>
+
+                    🌿
+
+                    ${escapeHTML(
+                        produceType
+                    )}
+
+                </p>
+
+
+                <h4>
+
+                    ₹${escapeHTML(
+                        String(price)
+                    )} / Kg
+
+                </h4>
+
+
+                ${offerHTML}
+
+
+                <button
+                    type="button"
+                    class="buy-btn js-buy-product"
+                >
+                    Buy Now
+                </button>
+
+
+                <button
+                    type="button"
+                    class="fav-btn js-favorite-product"
+                >
+                    ❤️ Add to Favorites
+                </button>
+
+
+                <button
+                    type="button"
+                    class="fav-btn js-favorite-farmer"
+                >
+                    👨‍🌾 Favorite Farmer
+                </button>
+
+            `;
+
+
+            /* =============================================
+               BUY BUTTON
+            ============================================= */
+
+            const buyButton =
+                card.querySelector(
+                    ".js-buy-product"
+                );
+
+
+            buyButton.addEventListener(
+                "click",
+                function () {
+
+                    buyProduct(
+                        productName,
+                        farmerName,
+                        price,
+                        image,
+                        farmerId
+                    );
+
+                }
+            );
+
+
+            /* =============================================
+               FAVORITE PRODUCT BUTTON
+            ============================================= */
+
+            const favoriteProductButton =
+                card.querySelector(
+                    ".js-favorite-product"
+                );
+
+
+            favoriteProductButton.addEventListener(
+                "click",
+                function () {
+
+                    addFavorite(
+                        productName,
+                        farmerName,
+                        price,
+                        image,
+                        farmerId
+                    );
+
+                }
+            );
+
+
+            /* =============================================
+               FAVORITE FARMER BUTTON
+            ============================================= */
+
+            const favoriteFarmerButton =
+                card.querySelector(
+                    ".js-favorite-farmer"
+                );
+
+
+            favoriteFarmerButton.addEventListener(
+                "click",
+                function () {
+
+                    addFavoriteFarmer(
+                        farmerName,
+                        farmerId
+                    );
+
+                }
+            );
+
+
+            productContainer.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FAVORITE PRODUCT
+===================================================== */
+
+function addFavorite(
+    name,
+    farmer,
+    price,
+    image,
+    farmerId
+) {
+
+    const client =
+        requireClientLogin();
+
+
+    if (!client) {
+
+        return;
+
+    }
+
+
+    const clientId =
+        getClientId(client);
+
+
+    if (!clientId) {
+
+        alert(
+            "Your customer account is missing an ID. Please login again."
+        );
+
+        return;
+
+    }
+
+
+    const storageKey =
+        "favorites_" + clientId;
+
+
+    let favorites = [];
+
+
+    try {
+
+        const storedFavorites =
+            localStorage.getItem(
+                storageKey
+            );
+
+
+        favorites =
+            storedFavorites
+                ? JSON.parse(
+                    storedFavorites
+                )
+                : [];
+
+
+        if (!Array.isArray(favorites)) {
+
+            favorites = [];
+
+        }
+
+    }
+    catch (error) {
+
+        favorites = [];
+
+    }
+
+
+    /* =============================================
+       CHECK DUPLICATE
+    ============================================= */
+
+    const alreadyExists =
+        favorites.some(
+            function (item) {
+
+                return (
+                    String(
+                        item.name || ""
+                    )
+                    .toLowerCase()
+                    ===
+                    String(
+                        name || ""
+                    )
+                    .toLowerCase()
+                    &&
+                    String(
+                        item.farmerId ||
+                        item.farmer ||
+                        ""
+                    )
+                    .toLowerCase()
+                    ===
+                    String(
+                        farmerId ||
+                        farmer ||
+                        ""
+                    )
+                    .toLowerCase()
+                );
+
+            }
+        );
+
+
+    if (alreadyExists) {
+
+        alert(
+            "This product is already in your Favorites."
+        );
+
+        return;
+
+    }
+
+
+    /* =============================================
+       ADD PRODUCT
+    ============================================= */
+
+    favorites.push({
+
+        id:
+            "FAV_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .substring(2, 8),
+
+        name:
+            name,
+
+        farmer:
+            farmer,
+
+        farmerId:
+            farmerId || "",
+
+        price:
+            price,
+
+        image:
+            image,
+
+        addedAt:
+            new Date().toISOString()
+
+    });
+
+
+    localStorage.setItem(
+        storageKey,
+        JSON.stringify(
+            favorites
+        )
+    );
+
+
+    alert(
+        "Product added to Favorites ❤️"
+    );
+
+}
+
+
+/* =====================================================
+   FAVORITE FARMER
+===================================================== */
+
+function addFavoriteFarmer(
+    name,
+    farmerId
+) {
+
+    const client =
+        requireClientLogin();
+
+
+    if (!client) {
+
+        return;
+
+    }
+
+
+    const clientId =
+        getClientId(client);
+
+
+    if (!clientId) {
+
+        alert(
+            "Your customer account is missing an ID. Please login again."
+        );
+
+        return;
+
+    }
+
+
+    const storageKey =
+        "favoriteFarmers_" +
+        clientId;
+
+
+    let favoriteFarmers = [];
+
+
+    try {
+
+        const storedFarmers =
+            localStorage.getItem(
+                storageKey
+            );
+
+
+        favoriteFarmers =
+            storedFarmers
+                ? JSON.parse(
+                    storedFarmers
+                )
+                : [];
+
+
+        if (
+            !Array.isArray(
+                favoriteFarmers
+            )
+        ) {
+
+            favoriteFarmers = [];
+
+        }
+
+    }
+    catch (error) {
+
+        favoriteFarmers = [];
+
+    }
+
+
+    /* =============================================
+       USE FARMER ID WHEN AVAILABLE
+       OTHERWISE USE FARMER NAME
+    ============================================= */
+
+    const uniqueFarmerKey =
+        farmerId ||
+        name;
+
+
+    const alreadyExists =
+        favoriteFarmers.some(
+            function (farmer) {
+
+                const existingKey =
+                    farmer.farmerId ||
+                    farmer.name;
+
+
+                return (
+                    String(
+                        existingKey || ""
+                    )
+                    .toLowerCase()
+                    ===
+                    String(
+                        uniqueFarmerKey || ""
+                    )
+                    .toLowerCase()
+                );
+
+            }
+        );
+
+
+    if (alreadyExists) {
+
+        alert(
+            "This farmer is already in your Favorites."
+        );
+
+        return;
+
+    }
+
+
+    /* =============================================
+       ADD FARMER
+    ============================================= */
+
+    favoriteFarmers.push({
+
+        id:
+            "FARMER_FAV_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .substring(2, 8),
+
+        farmerId:
+            farmerId || "",
+
+        name:
+            name,
+
+        addedAt:
+            new Date().toISOString()
+
+    });
+
+
+    localStorage.setItem(
+        storageKey,
+        JSON.stringify(
+            favoriteFarmers
+        )
+    );
+
+
+    alert(
+        "Farmer added to Favorites ❤️"
+    );
+
+}
+
+
+/* =====================================================
+   BUY PRODUCT
+===================================================== */
+
+function buyProduct(
+    name,
+    farmer,
+    price,
+    image,
+    farmerId
+) {
+
+    const client =
+        requireClientLogin();
+
+
+    if (!client) {
+
+        return;
+
+    }
+
+
+    const productOffers =
+        getProductOffers(
+            name
+        );
+
+
+    let selectedOffer =
+        null;
+
+
+    if (
+        productOffers.length > 0
+    ) {
+
+        selectedOffer =
+            productOffers[0];
+
+    }
+
+
+    /* =============================================
+       CREATE SELECTED PRODUCT
+    ============================================= */
+
+    const product = {
+
+        id:
+            "PRODUCT_" +
+            Date.now(),
+
+        name:
+            name,
+
+        farmer:
+            farmer,
+
+        farmerId:
+            farmerId || "",
+
+        price:
+            price,
+
+        image:
+            image,
+
+        offer:
+            selectedOffer,
+
+        selectedBy:
+            getClientId(client),
+
+        selectedAt:
+            new Date().toISOString()
+
+    };
+
+
+    /* =============================================
+       SAVE SELECTED PRODUCT
+    ============================================= */
+
+    try {
+
+        localStorage.setItem(
+            "selectedProduct",
+            JSON.stringify(
+                product
+            )
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Unable to save selected product:",
+            error
+        );
+
+        alert(
+            "Unable to continue with this product."
+        );
+
+        return;
+
+    }
+
+
+    /* =============================================
+       GO TO BUY PAGE
+    ============================================= */
+
+    window.location.href =
+        "buy.html";
+
+}
+
+
+/* =====================================================
+   SEARCH PRODUCTS
+===================================================== */
+
+function searchProducts() {
+
+    const inputElement =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    if (!inputElement) {
+
+        return;
+
+    }
+
+
+    const input =
+        inputElement.value
+            .trim()
+            .toLowerCase();
+
+
+    const cards =
+        document.querySelectorAll(
+            ".product-card"
+        );
+
+
+    cards.forEach(
+        function (card) {
+
+            const productName =
+                card
+                .querySelector("h3");
+
+
+            if (!productName) {
+
+                return;
+
+            }
+
+
+            const product =
+                productName
+                    .innerText
+                    .toLowerCase();
+
+
+            if (
+                product.includes(
+                    input
+                )
+            ) {
+
+                card.style.display =
+                    "";
+
+            }
+            else {
+
+                card.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SEARCH EVENT
+===================================================== */
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        searchProducts
+    );
+
+}
+
+
+/* =====================================================
+   NOTIFICATION LINK
+===================================================== */
+
+const notificationLink =
+    document.getElementById(
+        "notificationLink"
+    );
+
+
+if (notificationLink) {
+
+    notificationLink.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            alert(
+                "No new notifications."
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT OFFER DATE
+===================================================== */
+
+function formatOfferDate(
+    dateTime
+) {
+
+    if (!dateTime) {
+
+        return "";
+
+    }
+
+
+    const date =
+        new Date(
+            dateTime
+        );
+
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+
+            day:
+                "2-digit",
+
+            month:
+                "short",
+
+            year:
+                "numeric",
+
+            hour:
+                "2-digit",
+
+            minute:
+                "2-digit"
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   ESCAPE ATTRIBUTE
+===================================================== */
+
+function escapeAttribute(
+    value
+) {
+
+    return escapeHTML(
+        value
+    );
+
+}
+
+
+/* =====================================================
+   REFRESH WHEN LOCAL STORAGE CHANGES
+===================================================== */
+
+window.addEventListener(
+    "storage",
+    function (event) {
+
+        if (
+            event.key === "crops" ||
+            event.key === "farmxtOffers" ||
+            event.key === "currentClient"
+        ) {
+
+            loadMarketplaceData();
+
+            displayProducts();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INITIALIZE MARKETPLACE
+===================================================== */
+
+loadMarketplaceData();
+
+displayProducts();
+
+</script>
+
+</body>
+
+</html>
