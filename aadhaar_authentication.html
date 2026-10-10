@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FarmXT | Aadhaar Authentication</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-aadhaar_authentication">
+
+<header>
+
+<div class="logo">
+
+<img src="logo.jpg">
+
+<span>FarmXT</span>
+
+</div>
+
+<nav>
+
+<a href="final.html">Home</a>
+
+<a href="market_place.html">Marketplace</a>
+
+<a href="aadhaar_authentication.html">Aadhaar</a>
+
+<a href="contact.html">Contact</a>
+
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>🪪 Aadhaar Authentication</h2>
+
+<label>Farmer Name</label>
+
+<input type="text" id="name">
+
+<label>Aadhaar Number</label>
+
+<input type="text" id="aadhaar" maxlength="12">
+
+<label>Mobile Number</label>
+
+<input type="text" id="mobile" maxlength="10">
+
+<button onclick="verify()">
+
+Verify Aadhaar
+
+</button>
+
+<div id="result">
+
+Authentication result will appear here.
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+©2026 FarmXT | Aadhaar Authentication
+
+</footer>
+
+<script>
+
+function verify(){
+
+let name=document.getElementById("name").value;
+
+let aadhaar=document.getElementById("aadhaar").value;
+
+let mobile=document.getElementById("mobile").value;
+
+if(name=="" || aadhaar=="" || mobile==""){
+
+alert("Please fill all fields");
+
+return;
+
+}
+
+if(aadhaar.length!=12){
+
+document.getElementById("result").innerHTML=
+
+"<span style='color:red;'>❌ Invalid Aadhaar Number</span>";
+
+return;
+
+}
+
+if(mobile.length!=10){
+
+document.getElementById("result").innerHTML=
+
+"<span style='color:red;'>❌ Invalid Mobile Number</span>";
+
+return;
+
+}
+
+document.getElementById("result").innerHTML=
+
+`
+<h3>✅ Authentication Successful</h3>
+
+<p><b>Farmer:</b> ${name}</p>
+
+<p><b>Aadhaar:</b> ${aadhaar}</p>
+
+<p><b>Mobile:</b> ${mobile}</p>
+
+<p style="color:#facc15;">Farmer Verified Successfully</p>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
