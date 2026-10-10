@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Featured Listings & Promotions</title>
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-featured_listings">
+
+<div class="container">
+
+    <img src="logo.jpg" alt="FarmXT Logo" class="logo">
+
+    <h1>🌾 My Crops</h1>
+
+
+    <hr>
+
+  <h2>Your Uploaded Crops</h2>
+  
+
+    <div id="result">
+        No product listing available.
+    </div>
+
+
+</div>
+
+
+<script>
+let currentFarmer = JSON.parse(localStorage.getItem("currentFarmer"));
+
+if (!currentFarmer) {
+    alert("Please login first.");
+    window.location.href = "farmer_login.html";
+}
+
+// Load crops when page opens
+window.onload = function () {
+
+    displayMyCrops();
+
+};
+
+function displayMyCrops(){
+
+    let currentFarmer =
+    JSON.parse(localStorage.getItem("currentFarmer"));
+
+let crops =
+    JSON.parse(localStorage.getItem("crops")) || [];
+
+console.log("Current Farmer:", currentFarmer);
+console.log("All Crops:", crops);
+
+let myCrops = crops.filter(crop =>
+    String(crop.farmerMobile).trim() ===
+    String(currentFarmer.mobile).trim()
+);
+
+console.log("My Crops:", myCrops);
+
+    let result = document.getElementById("result");
+
+    if(myCrops.length === 0){
+
+        result.innerHTML = "<h3>No crops uploaded yet.</h3>";
+
+        return;
+
+    }
+
+    let output = "";
+
+    myCrops.forEach(function(crop,index){
+
+        output += `
+        <div style="background:rgba(255,255,255,.08);
+                    padding:20px;
+                    border-radius:15px;
+                    margin-bottom:20px;">
+<img src="${crop.image}"
+style="
+width:220px;
+height:170px;
+object-fit:cover;
+border-radius:15px;
+margin-bottom:15px;
+display:block;">
+            <h3 style="color:#facc15;">🌾 ${crop.product}</h3>
+
+            <p><strong>Farmer :</strong> ${crop.farmerName}</p>
+
+            <p><strong>Price :</strong> ₹${crop.price} / Kg</p>
+
+            <p><strong>Produce Type :</strong> ${crop.produceType}</p>
+
+            <br>
+
+            <button onclick="editCrop(${index})"
+            style="width:120px;margin-right:10px;">
+            ✏ Edit
+            </button>
+
+            <button onclick="deleteCrop(${index})"
+            style="width:120px;background:red;">
+            🗑 Delete
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    result.innerHTML = output;
+
+}
+
+
+// Delete Crop
+
+function deleteCrop(index){
+
+    let currentFarmer = JSON.parse(localStorage.getItem("currentFarmer"));
+
+    let crops = JSON.parse(localStorage.getItem("crops")) || [];
+
+   let myCrops = crops.filter(crop => 
+    String(crop.farmerMobile).trim() ===
+    String(currentFarmer.mobile).trim()
+);
+
+    let cropToDelete = myCrops[index];
+
+    crops = crops.filter(crop => crop !== cropToDelete);
+
+    localStorage.setItem("crops",JSON.stringify(crops));
+
+    alert("Crop Deleted Successfully.");
+
+    displayMyCrops();
+
+}
+
+
+// Edit Crop
+
+function editCrop(index){
+
+    let currentFarmer =
+        JSON.parse(localStorage.getItem("currentFarmer"));
+
+    let crops =
+        JSON.parse(localStorage.getItem("crops")) || [];
+
+    let myCrops = crops.filter(crop =>
+        String(crop.farmerMobile).trim() ===
+        String(currentFarmer.mobile).trim()
+    );
+
+    let crop = myCrops[index];
+
+    if(!crop){
+        alert("Crop not found.");
+        return;
+    }
+
+    let newPrice =
+        prompt(
+            "Enter New Price",
+            crop.price
+        );
+
+    if(newPrice === null){
+        return;
+    }
+
+    if(newPrice.trim() === ""){
+        alert("Please enter a valid price.");
+        return;
+    }
+
+    crop.price = newPrice;
+
+    localStorage.setItem(
+        "crops",
+        JSON.stringify(crops)
+    );
+
+    alert("Crop Updated Successfully.");
+
+    displayMyCrops();
+}
+
+</script>
+</body>
+</html>
