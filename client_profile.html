@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Client Profile | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-client_profile">
+
+<header class="navbar">
+
+<div class="logo-section">
+
+<img src="logo.jpg" class="logo">
+
+<h2>FarmXT</h2>
+
+</div>
+
+<nav>
+
+<a href="client_dashboard.html">Dashboard</a>
+
+<a href="market_place.html">Marketplace</a>
+
+<a href="my_orders.html">My Orders</a>
+
+<a href="contact.html">Support</a>
+
+<a href="index.html" class="logout">Logout</a>
+
+</nav>
+
+</header>
+
+<section class="profile-section">
+
+<div class="profile-card">
+
+<img src="profile.png" id="previewImage" class="profile-image">
+
+<h1>Client Profile</h1>
+
+<form>
+
+<div class="input-box">
+<label>Full Name</label>
+<input type="text" placeholder="Enter your full name" required>
+</div>
+
+<div class="input-box">
+<label>Mobile Number</label>
+<input type="tel" maxlength="10" placeholder="Enter mobile number" oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
+</div>
+
+<div class="input-box">
+<label>Email</label>
+<input type="email" placeholder="Enter email address">
+</div>
+
+<div class="input-box">
+<label>House / Flat No.</label>
+<input type="text" placeholder="Enter house number">
+</div>
+
+<div class="input-box">
+<label>Street / Area</label>
+<input type="text" placeholder="Enter street">
+</div>
+<div class="input-box">
+<label>City</label>
+<input type="text" placeholder="Enter city">
+</div>
+
+<div class="input-box">
+<label>State</label>
+<input type="text" placeholder="Enter state">
+</div>
+
+<div class="input-box">
+<label>PIN Code</label>
+<input type="text"
+       maxlength="6"
+       placeholder="Enter PIN Code"
+       oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+</div>
+
+<div class="input-box">
+<label>Upload Profile Photo</label>
+<input type="file" id="profilePhoto" accept="image/*">
+</div>
+
+<div class="buttons">
+
+<button type="button" class="edit-btn">
+Edit Profile
+</button>
+
+<button type="submit" class="save-btn">
+Save Profile
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</section>
+
+<script>
+
+const profilePhoto = document.getElementById("profilePhoto");
+const previewImage = document.getElementById("previewImage");
+
+profilePhoto.addEventListener("change",function(){
+
+const file=this.files[0];
+
+if(file){
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+previewImage.src=e.target.result;
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+});
+
+document.querySelector("form").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+alert("Profile saved successfully!");
+
+});
+
+</script>
+
+</body>
+
+</html>
