@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Post Requirement | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-post_requirement">
+
+
+<div class="container">
+
+
+    <!-- LOGO -->
+
+    <img
+        src="logo.jpg"
+        class="logo"
+        alt="FarmXT Logo">
+
+
+    <!-- HEADING -->
+
+    <h1>
+        📋 Post Crop Requirement
+    </h1>
+
+
+    <p class="subtitle">
+
+        Tell FarmXT farmers what crops and quantities
+        your business needs.
+
+    </p>
+
+
+
+    <!-- FORM -->
+
+    <form id="requirementForm">
+
+
+        <!-- CROP -->
+
+        <div class="form-group">
+
+            <label>
+                🌾 Crop Needed
+            </label>
+
+            <input
+                type="text"
+                id="cropNeeded"
+                placeholder="Example: Wheat, Rice, Tomato"
+                required>
+
+        </div>
+
+
+
+        <!-- QUANTITY -->
+
+        <div class="form-group">
+
+            <label>
+                📦 Quantity Required
+            </label>
+
+            <input
+                type="text"
+                id="quantity"
+                placeholder="Example: 500 Kg, 2 Tons"
+                required>
+
+        </div>
+
+
+
+        <!-- DELIVERY LOCATION -->
+
+        <div class="form-group">
+
+            <label>
+                📍 Delivery Location
+            </label>
+
+            <input
+                type="text"
+                id="deliveryLocation"
+                placeholder="Enter delivery location"
+                required>
+
+        </div>
+
+
+
+        <!-- REQUIRED DATE -->
+
+        <div class="form-group">
+
+            <label>
+                📅 Required Date
+            </label>
+
+            <input
+                type="date"
+                id="deliveryDate"
+                required>
+
+        </div>
+
+
+
+        <!-- REQUIREMENT DETAILS -->
+
+        <div class="form-group">
+
+            <label>
+                📝 Requirement Details
+            </label>
+
+            <textarea
+                id="requirement"
+                placeholder="Describe quality, packaging, delivery requirements, etc."
+                required></textarea>
+
+        </div>
+
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+
+            <a
+                href="bulk_buyer_dashboard.html"
+                class="btn back-btn">
+
+                ← Back
+
+            </a>
+
+
+            <button
+                type="submit"
+                class="btn">
+
+                📢 Post Requirement
+
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+
+    <!-- NOTE -->
+
+    <div class="note">
+
+        <strong>Privacy:</strong>
+
+        Your requirement will be available to
+        eligible FarmXT farmers. Your mobile number
+        and other private account information will
+        not be displayed on the farmer requirement
+        listing.
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+// =====================================================
+// CHECK BULK BUYER LOGIN
+// =====================================================
+
+let buyer = JSON.parse(
+    localStorage.getItem("currentBulkBuyer")
+);
+
+
+if(!buyer){
+
+    alert(
+        "Please login as a Bulk Buyer first."
+    );
+
+    window.location.href =
+        "bulk_buyer_login.html";
+
+}
+
+
+
+// =====================================================
+// SET MINIMUM DATE
+// =====================================================
+
+let today =
+    new Date().toISOString().split("T")[0];
+
+
+document.getElementById(
+    "deliveryDate"
+).setAttribute(
+    "min",
+    today
+);
+
+
+
+// =====================================================
+// POST REQUIREMENT
+// =====================================================
+
+document
+.getElementById("requirementForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        if(!buyer){
+
+            alert(
+                "Please login again."
+            );
+
+            return;
+
+        }
+
+
+
+        // =============================================
+        // GET FORM VALUES
+        // =============================================
+
+        let cropNeeded =
+            document
+            .getElementById("cropNeeded")
+            .value
+            .trim();
+
+
+        let quantity =
+            document
+            .getElementById("quantity")
+            .value
+            .trim();
+
+
+        let deliveryLocation =
+            document
+            .getElementById("deliveryLocation")
+            .value
+            .trim();
+
+
+        let deliveryDate =
+            document
+            .getElementById("deliveryDate")
+            .value;
+
+
+        let requirement =
+            document
+            .getElementById("requirement")
+            .value
+            .trim();
+
+
+
+        // =============================================
+        // GET EXISTING REQUIREMENTS
+        // =============================================
+
+        let requirements =
+            JSON.parse(
+                localStorage.getItem(
+                    "bulkBuyerRequirements"
+                )
+            ) || [];
+
+
+
+        // =============================================
+        // CREATE REQUIREMENT
+        // =============================================
+
+        let newRequirement = {
+
+            id:
+                Date.now(),
+
+            buyerId:
+                buyer.id,
+
+            businessName:
+                buyer.businessName,
+
+            cropNeeded:
+                cropNeeded,
+
+            quantity:
+                quantity,
+
+            deliveryLocation:
+                deliveryLocation,
+
+            deliveryDate:
+                deliveryDate,
+
+            requirement:
+                requirement,
+
+            status:
+                "Open",
+
+            createdAt:
+                new Date().toLocaleString()
+
+        };
+
+
+
+        // =============================================
+        // SAVE REQUIREMENT
+        // =============================================
+
+        requirements.push(
+            newRequirement
+        );
+
+
+        localStorage.setItem(
+            "bulkBuyerRequirements",
+            JSON.stringify(requirements)
+        );
+
+
+
+        // =============================================
+        // SUCCESS
+        // =============================================
+
+        alert(
+            "Requirement posted successfully!"
+        );
+
+
+        window.location.href =
+            "bulk_buyer_dashboard.html";
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
