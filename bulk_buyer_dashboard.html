@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bulk Buyer Dashboard | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-bulk_buyer_dashboard">
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <div class="logo-section">
+
+        <img
+            src="logo.jpg"
+            class="logo"
+            alt="FarmXT Logo">
+
+        <h2>
+            FarmXT
+        </h2>
+
+    </div>
+
+
+    <nav>
+
+        <a href="bulk_buyer_dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="post_requirement.html">
+            Post Requirement
+        </a>
+
+        <a href="#myRequirements">
+            My Requirements
+        </a>
+
+       <a href="bulk_buyer_interests.html">
+
+    View Farmers
+
+</a>
+
+        <a href="logistic_optimization.html">
+            Transportation
+        </a>
+
+        <a
+            href="#"
+            class="logout"
+            onclick="logout(event)">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <h1 id="welcome">
+        Welcome Bulk Buyer 🏪
+    </h1>
+
+
+    <p>
+
+        Post your crop requirements and connect
+        with farmers who can supply the products
+        you need.
+
+    </p>
+
+
+    <div class="business-info">
+
+        <strong>
+            Business:
+        </strong>
+
+        <span id="businessName">
+            Bulk Buyer
+        </span>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     QUICK ACTIONS
+===================================================== -->
+
+<section class="actions">
+
+
+    <!-- POST REQUIREMENT -->
+
+    <div class="card">
+
+        <h2>
+            📋 Post Requirement
+        </h2>
+
+        <p>
+
+            Tell farmers which crops and quantities
+            your business needs.
+
+        </p>
+
+        <a href="post_requirement.html">
+
+            Post Requirement
+
+        </a>
+
+    </div>
+
+
+
+    <!-- MY REQUIREMENTS -->
+
+    <div class="card">
+
+        <h2>
+            🌾 My Requirements
+        </h2>
+
+        <p>
+
+            View the requirements you have
+            posted on FarmXT.
+
+        </p>
+
+        <a href="#myRequirements">
+
+            View Requirements
+
+        </a>
+
+    </div>
+
+
+
+    <!-- FARMER INTERESTS -->
+
+    <div class="card">
+
+        <h2>
+            🤝 Farmer Interests
+        </h2>
+
+        <p>
+
+            View farmers who are interested
+            in fulfilling your requirements.
+
+        </p>
+
+        <a href="#farmerInterests">
+
+            View Interests
+
+        </a>
+
+    </div>
+
+
+
+    <!-- TRANSPORTATION -->
+
+    <div class="card">
+
+        <h2>
+            🚚 Transportation
+        </h2>
+
+        <p>
+
+            Manage transportation and delivery
+            of your required crops.
+
+        </p>
+
+        <a href="logistic_optimization.html">
+
+            Open Logistics
+
+        </a>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     MY REQUIREMENTS
+===================================================== -->
+
+<section
+    class="section"
+    id="myRequirements">
+
+    <h2 class="section-title">
+
+        📋 My Requirements
+
+    </h2>
+
+
+    <div
+        class="requirements"
+        id="requirementsContainer">
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FARMER INTERESTS
+===================================================== -->
+
+<section
+    class="section"
+    id="farmerInterests">
+
+    <h2 class="section-title">
+
+        🤝 Farmer Interests
+
+    </h2>
+
+
+    <div
+        class="requirements"
+        id="interestsContainer">
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <p>
+        © 2026 FarmXT |
+        Empowering Farmers Through Technology
+    </p>
+
+    <p>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+        |
+
+        <a href="community_network.html">
+            Community
+        </a>
+
+        |
+
+        <a href="transparency.html">
+            Transparency
+        </a>
+
+    </p>
+
+</footer>
+
+
+
+<script>
+
+
+// =====================================================
+// CHECK BULK BUYER LOGIN
+// =====================================================
+
+let buyer = JSON.parse(
+    localStorage.getItem("currentBulkBuyer")
+);
+
+
+if(!buyer){
+
+    alert(
+        "Please login as a Bulk Buyer first."
+    );
+
+    window.location.href =
+        "bulk_buyer_login.html";
+
+}
+
+
+
+// =====================================================
+// DISPLAY BUSINESS NAME
+// =====================================================
+
+if(buyer){
+
+    document.getElementById(
+        "welcome"
+    ).innerHTML =
+        "Welcome, " +
+        (buyer.ownerName || "Bulk Buyer") +
+        " 🏪";
+
+
+    document.getElementById(
+        "businessName"
+    ).innerText =
+        buyer.businessName ||
+        "Bulk Buyer";
+
+}
+
+
+
+// =====================================================
+// LOAD REQUIREMENTS
+// =====================================================
+
+function loadRequirements(){
+
+    let requirements =
+        JSON.parse(
+            localStorage.getItem(
+                "bulkBuyerRequirements"
+            )
+        ) || [];
+
+
+    let container =
+        document.getElementById(
+            "requirementsContainer"
+        );
+
+
+    // Only show this buyer's requirements
+
+    let myRequirements =
+        requirements.filter(
+            function(requirement){
+
+                return (
+                    requirement.buyerId ==
+                    buyer.id
+                );
+
+            }
+        );
+
+
+    if(myRequirements.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                You have not posted
+                any requirements yet.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    myRequirements.forEach(
+        function(requirement){
+
+            container.innerHTML += `
+
+                <div class="requirement-card">
+
+                    <h3>
+                        🌾 ${
+                            requirement.cropNeeded ||
+                            "Crop"
+                        }
+                    </h3>
+
+                    <p>
+                        <strong>
+                            Quantity:
+                        </strong>
+                        ${
+                            requirement.quantity ||
+                            "Not Available"
+                        }
+                    </p>
+
+                    <p>
+                        <strong>
+                            Delivery Location:
+                        </strong>
+                        ${
+                            requirement.deliveryLocation ||
+                            "Not Available"
+                        }
+                    </p>
+
+                    <p>
+                        <strong>
+                            Required Date:
+                        </strong>
+                        ${
+                            requirement.deliveryDate ||
+                            "Not Available"
+                        }
+                    </p>
+
+                    <p>
+                        <strong>
+                            Details:
+                        </strong>
+                        ${
+                            requirement.requirement ||
+                            "No details provided"
+                        }
+                    </p>
+
+                    <span class="status">
+
+                        ${
+                            requirement.status ||
+                            "Open"
+                        }
+
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// LOAD FARMER INTERESTS
+// =====================================================
+
+function loadInterests(){
+
+    let interests =
+        JSON.parse(
+            localStorage.getItem(
+                "bulkBuyerInterests"
+            )
+        ) || [];
+
+
+    let container =
+        document.getElementById(
+            "interestsContainer"
+        );
+
+
+    // =================================================
+    // ONLY THIS BUYER'S INTERESTS
+    // =================================================
+
+    let myInterests =
+        interests.filter(
+            function(interest){
+
+                return (
+                    interest.buyerId ==
+                    buyer.id
+                );
+
+            }
+        );
+
+
+    // =================================================
+    // NO RESPONSES
+    // =================================================
+
+    if(myInterests.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                No farmers have responded
+                to your requirements yet.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    // =================================================
+    // DISPLAY FARMER RESPONSES
+    // =================================================
+
+    myInterests.forEach(
+        function(interest){
+
+            let status =
+                interest.status ||
+                "Pending";
+
+
+            // =================================================
+            // STATUS CLASS
+            // =================================================
+
+            let statusClass = "";
+
+
+            if(status === "Pending"){
+
+                statusClass = "pending";
+
+            }
+            else if(status === "Accepted"){
+
+                statusClass = "accepted";
+
+            }
+            else if(status === "Not Interested"){
+
+                statusClass = "not-interested";
+
+            }
+            else if(status === "Confirmed"){
+
+                statusClass = "confirmed";
+
+            }
+
+
+            // =================================================
+            // ACTION BUTTON
+            // =================================================
+
+            let actionButton = "";
+
+
+            // PENDING
+            if(status === "Pending"){
+
+                actionButton = `
+
+                    <button
+                        class="select-farmer-btn"
+                        onclick="selectFarmer(${interest.id})">
+
+                        🤝 Select This Farmer
+
+                    </button>
+
+                `;
+
+            }
+
+
+            // ACCEPTED
+            else if(status === "Accepted"){
+
+                actionButton = `
+
+                    <button
+                        class="select-farmer-btn"
+                        disabled>
+
+                        ✓ Farmer Selected
+
+                    </button>
+
+                `;
+
+            }
+
+
+            // NOT INTERESTED
+            else if(status === "Not Interested"){
+
+                actionButton = `
+
+                    <button
+                        class="select-farmer-btn"
+                        disabled
+                        style="
+                            background:rgba(239,68,68,.25);
+                            cursor:not-allowed;
+                        ">
+
+                        ❌ Farmer Not Interested
+
+                    </button>
+
+                `;
+
+            }
+
+
+            // =================================================
+            // DISPLAY CARD
+            // =================================================
+
+            container.innerHTML += `
+
+                <div class="requirement-card">
+
+                    <h3>
+
+                        👨‍🌾 ${
+                            interest.farmerName ||
+                            "Farmer"
+                        }
+
+                    </h3>
+
+
+                    <p>
+
+                        <strong>
+                            Crop:
+                        </strong>
+
+                        ${
+                            interest.availableCrop ||
+                            "Not Available"
+                        }
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Available Quantity:
+                        </strong>
+
+                        ${
+                            interest.availableQuantity ||
+                            "Not Available"
+                        }
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Expected Delivery:
+                        </strong>
+
+                        ${
+                            interest.deliveryDate ||
+                            "Not Available"
+                        }
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Message:
+                        </strong>
+
+                        ${
+                            interest.message ||
+                            "No message"
+                        }
+
+                    </p>
+
+
+                    <span
+                        class="status ${statusClass}">
+
+                        ${
+                            status === "Pending"
+                            ? "🟡 Pending"
+                            : status === "Accepted"
+                            ? "🟢 Accepted"
+                            : status === "Not Interested"
+                            ? "🔴 Not Interested"
+                            : status === "Confirmed"
+                            ? "🔵 Confirmed"
+                            : status
+                        }
+
+                    </span>
+
+
+                    ${actionButton}
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+// =====================================================
+// LOGOUT
+// =====================================================
+
+function logout(event){
+
+    event.preventDefault();
+
+
+    localStorage.removeItem(
+        "currentBulkBuyer"
+    );
+
+
+    localStorage.removeItem(
+        "userType"
+    );
+
+
+    alert(
+        "Logged Out Successfully!"
+    );
+
+
+    window.location.href =
+        "final.html";
+
+}
+
+
+
+// =====================================================
+// LOAD DATA
+// =====================================================
+
+if(buyer){
+
+    loadRequirements();
+
+    loadInterests();
+
+}
+
+</script>
+
+
+    <script src="chatbot.js"></script>
+</body>
+
+</html>
