@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmXT | B2G Rewards</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-b2g_rewards">
+
+<header>
+
+<div class="logo">
+<img src="logo.jpg">
+<span>FarmXT</span>
+</div>
+
+<nav>
+<a href="final.html">Home</a>
+<a href="market_place.html">Marketplace</a>
+<a href="b2g_rewards.html">B2G Rewards</a>
+<a href="contact.html">Contact</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>🏛 B2G Reward Calculator</h2>
+
+<label>Farmer Name</label>
+<input type="text" id="farmer">
+
+<label>Aadhaar Number</label>
+<input type="text" id="aadhaar">
+
+<label>Crop Name</label>
+<input type="text" id="crop">
+
+<label>Production (Kg)</label>
+<input type="number" id="qty">
+
+<label>Farming Type</label>
+
+<select id="organic">
+<option>Regular</option>
+<option>Organic</option>
+</select>
+
+<label>Water Saving</label>
+
+<select id="water">
+<option>No</option>
+<option>Yes</option>
+</select>
+
+<button onclick="calculateReward()">
+Calculate Reward
+</button>
+
+<div id="result">
+Reward details will appear here.
+</div>
+
+</div>
+
+<div class="side">
+
+<div class="box">
+<h3>🌾 PM-KISAN</h3>
+<p>Eligible farmers receive government financial assistance of ₹6000 every year.</p>
+</div>
+
+<div class="box">
+<h3>🌱 Organic Farming Bonus</h3>
+<p>Organic farmers receive an additional ₹1000 incentive.</p>
+</div>
+
+<div class="box">
+<h3>💧 Water Conservation</h3>
+<p>Farmers practicing water conservation receive a ₹500 reward.</p>
+</div>
+
+<div class="box">
+<h3>🛡 Crop Insurance</h3>
+<p>Provides financial protection against crop damage due to natural disasters.</p>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+©2026 FarmXT | Business-to-Government Rewards
+</footer>
+
+<script>
+
+function calculateReward(){
+
+let farmer=document.getElementById("farmer").value;
+let aadhaar=document.getElementById("aadhaar").value;
+let crop=document.getElementById("crop").value;
+let qty=Number(document.getElementById("qty").value);
+let organic=document.getElementById("organic").value;
+let water=document.getElementById("water").value;
+
+if(farmer=="" || aadhaar=="" || crop=="" || qty==""){
+alert("Please fill all fields");
+return;
+}
+
+let base=qty*2;
+let organicBonus=(organic=="Organic")?1000:0;
+let waterBonus=(water=="Yes")?500:0;
+
+let total=base+organicBonus+waterBonus;
+
+document.getElementById("result").innerHTML=
+`
+<h3>Reward Details</h3>
+
+<p>👨‍🌾 <b>${farmer}</b></p>
+
+<p>🌾 Crop : <b>${crop}</b></p>
+
+<p>💰 Base Reward : ₹${base}</p>
+
+<p>🌱 Organic Bonus : ₹${organicBonus}</p>
+
+<p>💧 Water Bonus : ₹${waterBonus}</p>
+
+<hr style="margin:12px 0;border:1px solid rgba(255,255,255,.2);">
+
+<h2 style="color:#facc15;">Total Reward : ₹${total}</h2>
+
+<p style="color:#7CFC00;">Status : Eligible ✅</p>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
