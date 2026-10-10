@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmXT | Route Cost Profit Calculator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-route_profit">
+
+<header>
+
+<div class="logo">
+<img src="logo.jpg">
+<span>FarmXT</span>
+</div>
+
+<nav>
+<a href="final.html">Home</a>
+<a href="market_place.html">Marketplace</a>
+<a href="profit_calculation_system.html">Profit</a>
+<a href="contact.html">Contact</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>🚚 Route Cost Profit Calculator</h2>
+
+<label>Production Cost (₹)</label>
+<input type="number" id="production">
+
+<label>Route Cost (₹)</label>
+<input type="number" id="route">
+
+<label>Selling Price per Kg (₹)</label>
+<input type="number" id="price">
+
+<label>Quantity (Kg)</label>
+<input type="number" id="qty">
+
+<button onclick="calculateProfit()">
+Calculate Profit
+</button>
+
+<div class="result" id="result">
+
+Profit will appear here
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+©2026 FarmXT | Empowering Farmers
+
+</footer>
+
+<script>
+
+function calculateProfit(){
+
+let production=Number(document.getElementById("production").value);
+
+let route=Number(document.getElementById("route").value);
+
+let price=Number(document.getElementById("price").value);
+
+let qty=Number(document.getElementById("qty").value);
+
+if (
+document.getElementById("production").value === "" ||
+document.getElementById("route").value === "" ||
+document.getElementById("price").value === "" ||
+document.getElementById("qty").value === ""
+)
+{
+alert("Please fill all fields");
+return;
+}
+
+let income=price*qty;
+
+let profit=income-(production+route);
+
+let color = profit >= 0 ? "#22c55e" : "#ef4444";
+
+document.getElementById("result").innerHTML = `
+<h3 style="margin-bottom:10px;">📊 Calculation Result</h3>
+
+<p>💰 Income : <b>₹${income}</b></p>
+
+<p>🏭 Production Cost : <b>₹${production}</b></p>
+
+<p>🚚 Route Cost : <b>₹${route}</b></p>
+
+<hr style="margin:12px 0;border:1px solid rgba(255,255,255,.2);">
+
+<h2 style="color:${color};">
+${profit >= 0 ? "✅ Net Profit" : "❌ Net Loss"} : ₹${Math.abs(profit)}
+</h2>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
