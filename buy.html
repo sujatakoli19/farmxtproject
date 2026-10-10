@@ -1,0 +1,1754 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Buy Product | FarmXT</title>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+
+
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-buy">
+
+
+<div class="container">
+
+
+    <img
+        src="logo.jpg"
+        class="logo"
+    >
+
+
+    <h1>🛒 Buy Product</h1>
+
+
+
+    <!-- =================================================
+         PAID PRODUCT
+    ================================================== -->
+
+    <div class="product-card">
+
+
+        <img
+            id="productImage"
+            class="product-image"
+            src=""
+            alt="Product"
+        >
+
+
+        <div class="details">
+
+
+            <h2 id="productName"></h2>
+
+
+            <p id="farmer"></p>
+
+
+            <p id="location"></p>
+
+
+            <p id="rating"></p>
+
+
+            <h3 id="price"></h3>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         ORDER SECTION
+    ================================================== -->
+
+    <div class="order-section">
+
+
+        <label>
+            Quantity (Kg)
+        </label>
+
+
+        <input
+            type="number"
+            id="quantity"
+            value="1"
+            min="1"
+            step="0.01"
+        >
+
+
+
+        <!-- =================================================
+             DYNAMIC OFFER
+        ================================================== -->
+
+        <div
+            id="offerBox"
+            class="offer-box"
+        >
+
+            <h3>
+                🎁 Special Offer
+            </h3>
+
+            <p id="offerTitle"></p>
+
+            <p id="offerRequirement"></p>
+
+            <p>
+                🎁 Free:
+                <span
+                    id="offerFreeProduct"
+                    class="free-product"
+                ></span>
+            </p>
+
+            <p>
+                Free Quantity:
+                <strong id="offerFreeQuantity"></strong>
+                Kg
+            </p>
+
+            <p
+                id="offerMessage"
+                class="offer-message"
+            ></p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FREE PRODUCT
+        ================================================== -->
+
+        <div
+            id="freeItemBox"
+            class="free-item-box"
+        >
+
+            <h3>
+                🎉 Free Item Added
+            </h3>
+
+            <p>
+                Product:
+                <strong id="freeItemName"></strong>
+            </p>
+
+            <p>
+                Quantity:
+                <strong id="freeItemQuantity"></strong>
+                Kg
+            </p>
+
+            <p>
+                Price:
+                <strong>₹0</strong>
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PAYMENT
+        ================================================== -->
+
+        <label>
+            Payment Method
+        </label>
+
+
+        <select id="paymentMethod">
+
+            <option value="Cash on Delivery">
+                Cash on Delivery
+            </option>
+
+            <option value="UPI">
+                UPI
+            </option>
+
+            <option value="Debit Card">
+                Debit Card
+            </option>
+
+            <option value="Net Banking">
+                Net Banking
+            </option>
+
+        </select>
+
+
+
+        <!-- =================================================
+             CUSTOMER
+        ================================================== -->
+
+        <label>
+            Customer Name
+        </label>
+
+
+        <input
+            type="text"
+            id="customerName"
+        >
+
+
+
+        <label>
+            Mobile Number
+        </label>
+
+
+        <input
+            type="text"
+            id="mobile"
+            maxlength="10"
+            inputmode="numeric"
+        >
+
+
+
+        <label>
+            Delivery Address
+        </label>
+
+
+        <input
+            type="text"
+            id="address"
+        >
+
+
+
+        <!-- =================================================
+             TOTAL
+        ================================================== -->
+
+        <div class="total-section">
+
+            <h2>
+                Total Price :
+                ₹<span id="total">0</span>
+            </h2>
+
+            <p
+                id="freeNote"
+                class="free-note"
+            >
+                🎁 Free item included at no extra cost.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CHECKOUT
+        ================================================== -->
+
+        <button
+            class="buy-btn"
+            id="checkoutButton"
+            onclick="placeOrder()"
+        >
+            Proceed to Checkout
+        </button>
+
+
+        <br>
+        <br>
+
+
+        <a
+            href="market_place.html"
+            class="back-btn"
+        >
+            ← Back to Market Place
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   GLOBAL DATA
+===================================================== */
+
+
+/*
+   Selected product comes from market_place.html
+*/
+
+let product =
+    getStorageObject("selectedProduct");
+
+
+/*
+   All farmer crop listings.
+*/
+
+let crops =
+    getStorageArray("crops");
+
+
+/*
+   All admin-created offers.
+*/
+
+let offers =
+    getStorageArray("farmxtOffers");
+
+
+/*
+   Currently applicable offer.
+*/
+
+let activeOffer =
+    null;
+
+
+/*
+   Currently selected free crop listing.
+*/
+
+let freeProductListing =
+    null;
+
+
+
+/* =====================================================
+   LOCAL STORAGE HELPERS
+===================================================== */
+
+function getStorageArray(key){
+
+    try{
+
+        const data =
+            localStorage.getItem(key);
+
+        if(!data){
+
+            return [];
+
+        }
+
+        const parsed =
+            JSON.parse(data);
+
+        return Array.isArray(parsed)
+            ? parsed
+            : [];
+
+    }
+    catch(error){
+
+        console.error(
+            "Storage read error:",
+            key,
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+function getStorageObject(key){
+
+    try{
+
+        const data =
+            localStorage.getItem(key);
+
+        if(!data){
+
+            return null;
+
+        }
+
+        return JSON.parse(data);
+
+    }
+    catch(error){
+
+        console.error(
+            "Storage read error:",
+            key,
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOAD SELECTED PRODUCT
+===================================================== */
+
+function loadProduct(){
+
+    if(!product){
+
+        document.querySelector(".container").innerHTML =
+
+            `
+            <h1
+                style="
+                    color:white;
+                    text-align:center;
+                    margin-top:100px;
+                "
+            >
+                No Product Selected
+            </h1>
+
+            <div
+                style="
+                    text-align:center;
+                    margin-top:20px;
+                "
+            >
+                <a
+                    href="market_place.html"
+                    class="back-btn"
+                >
+                    ← Back to Market Place
+                </a>
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "productImage"
+    ).src =
+        product.image || "default.jpg";
+
+
+    document.getElementById(
+        "productName"
+    ).textContent =
+        product.name || "Product";
+
+
+    document.getElementById(
+        "farmer"
+    ).textContent =
+        "👨‍🌾 Farmer : " +
+        (product.farmer || "Not Available");
+
+
+    document.getElementById(
+        "location"
+    ).textContent =
+        "📍 " +
+        (product.location || "Not Available");
+
+
+    /*
+       Rating is kept from the existing page.
+    */
+
+    document.getElementById(
+        "rating"
+    ).textContent =
+        "⭐ 4.8 Rating";
+
+
+    document.getElementById(
+        "price"
+    ).textContent =
+        "₹" +
+        formatNumber(product.price) +
+        " / Kg";
+
+
+    loadCustomerDetails();
+
+
+    /*
+       Check offer after loading product.
+    */
+
+    findApplicableOffer();
+
+
+    calculateTotal();
+
+}
+
+
+
+/* =====================================================
+   LOAD CUSTOMER DETAILS
+===================================================== */
+
+function loadCustomerDetails(){
+
+    const currentUser =
+        getStorageObject("currentClient");
+
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "customerName"
+    ).value =
+        currentUser.name || "";
+
+
+    document.getElementById(
+        "mobile"
+    ).value =
+        currentUser.mobile || "";
+
+
+    document.getElementById(
+        "address"
+    ).value =
+        currentUser.address || "";
+
+
+    document.getElementById(
+        "customerName"
+    ).readOnly =
+        true;
+
+
+    document.getElementById(
+        "mobile"
+    ).readOnly =
+        true;
+
+
+    document.getElementById(
+        "address"
+    ).readOnly =
+        true;
+
+}
+
+
+
+/* =====================================================
+   FIND ACTIVE OFFER
+===================================================== */
+
+function findApplicableOffer(){
+
+    activeOffer = null;
+
+
+    /*
+       Refresh offers from localStorage.
+    */
+
+    offers =
+        getStorageArray("farmxtOffers");
+
+
+    if(!product){
+
+        return;
+
+    }
+
+
+    const now =
+        new Date();
+
+
+    /*
+       First preference:
+       marketplace passes the selected offer ID.
+    */
+
+    if(product.offerId){
+
+        const selectedOffer =
+            offers.find(function(offer){
+
+                return (
+                    String(offer.id) ===
+                    String(product.offerId)
+                );
+
+            });
+
+
+        if(
+            selectedOffer &&
+            isOfferActive(selectedOffer, now) &&
+            sameProduct(
+                selectedOffer.buyProduct,
+                product.name
+            )
+        ){
+
+            activeOffer =
+                selectedOffer;
+
+        }
+
+    }
+
+
+    /*
+       If no selected offer was passed,
+       find an active offer for this product.
+    */
+
+    if(!activeOffer){
+
+        const matchingOffers =
+            offers.filter(function(offer){
+
+                return (
+                    isOfferActive(offer, now) &&
+                    sameProduct(
+                        offer.buyProduct,
+                        product.name
+                    )
+                );
+
+            });
+
+
+        /*
+           If multiple offers exist,
+           use the most recently created one.
+        */
+
+        if(matchingOffers.length > 0){
+
+            matchingOffers.sort(
+                function(a,b){
+
+                    return (
+                        new Date(
+                            b.createdAt || 0
+                        ) -
+
+                        new Date(
+                            a.createdAt || 0
+                        )
+                    );
+
+                }
+            );
+
+
+            activeOffer =
+                matchingOffers[0];
+
+        }
+
+    }
+
+
+    displayOfferInformation();
+
+}
+
+
+
+/* =====================================================
+   CHECK OFFER ACTIVE
+===================================================== */
+
+function isOfferActive(
+    offer,
+    now
+){
+
+    if(!offer){
+
+        return false;
+
+    }
+
+
+    if(offer.status === false){
+
+        return false;
+
+    }
+
+
+    const start =
+        new Date(
+            offer.startDateTime
+        );
+
+
+    const end =
+        new Date(
+            offer.endDateTime
+        );
+
+
+    if(
+        isNaN(start.getTime()) ||
+        isNaN(end.getTime())
+    ){
+
+        return false;
+
+    }
+
+
+    return (
+        now >= start &&
+        now <= end
+    );
+
+}
+
+
+
+/* =====================================================
+   PRODUCT COMPARISON
+===================================================== */
+
+function sameProduct(
+    first,
+    second
+){
+
+    if(
+        first === undefined ||
+        first === null ||
+        second === undefined ||
+        second === null
+    ){
+
+        return false;
+
+    }
+
+
+    return String(first)
+        .trim()
+        .toLowerCase() ===
+
+        String(second)
+        .trim()
+        .toLowerCase();
+
+}
+
+
+
+/* =====================================================
+   DISPLAY OFFER
+===================================================== */
+
+function displayOfferInformation(){
+
+    const offerBox =
+        document.getElementById(
+            "offerBox"
+        );
+
+
+    const freeItemBox =
+        document.getElementById(
+            "freeItemBox"
+        );
+
+
+    const freeNote =
+        document.getElementById(
+            "freeNote"
+        );
+
+
+    /*
+       No active offer.
+    */
+
+    if(!activeOffer){
+
+        offerBox.style.display =
+            "none";
+
+        freeItemBox.style.display =
+            "none";
+
+        freeNote.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    offerBox.style.display =
+        "block";
+
+
+    document.getElementById(
+        "offerTitle"
+    ).textContent =
+        activeOffer.offerTitle || "Special Offer";
+
+
+    document.getElementById(
+        "offerRequirement"
+    ).textContent =
+
+        "Buy " +
+        formatNumber(
+            activeOffer.buyQuantity
+        ) +
+        " Kg of " +
+        activeOffer.buyProduct +
+        " to receive the free item.";
+
+
+    document.getElementById(
+        "offerFreeProduct"
+    ).textContent =
+        activeOffer.freeProduct;
+
+
+    document.getElementById(
+        "offerFreeQuantity"
+    ).textContent =
+        formatNumber(
+            activeOffer.freeQuantity
+        );
+
+
+    /*
+       Check current quantity.
+    */
+
+    updateOfferQualification();
+
+}
+
+
+
+/* =====================================================
+   UPDATE OFFER QUALIFICATION
+===================================================== */
+
+function updateOfferQualification(){
+
+    const offerMessage =
+        document.getElementById(
+            "offerMessage"
+        );
+
+
+    const freeItemBox =
+        document.getElementById(
+            "freeItemBox"
+        );
+
+
+    const freeNote =
+        document.getElementById(
+            "freeNote"
+        );
+
+
+    if(!activeOffer){
+
+        return;
+
+    }
+
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+
+    const requiredQuantity =
+        Number(
+            activeOffer.buyQuantity
+        );
+
+
+    /*
+       Customer qualifies.
+    */
+
+    if(
+        Number.isFinite(quantity) &&
+        quantity >= requiredQuantity
+    ){
+
+        offerMessage.textContent =
+            "✓ Offer applied! You qualify for the free item.";
+
+
+        freeItemBox.style.display =
+            "block";
+
+
+        freeNote.style.display =
+            "block";
+
+
+        document.getElementById(
+            "freeItemName"
+        ).textContent =
+            activeOffer.freeProduct;
+
+
+        document.getElementById(
+            "freeItemQuantity"
+        ).textContent =
+            formatNumber(
+                activeOffer.freeQuantity
+            );
+
+
+        /*
+           Find an actual farmer listing
+           for the free product.
+        */
+
+        findFreeProductListing();
+
+    }
+    else{
+
+        const remaining =
+            Math.max(
+                requiredQuantity - quantity,
+                0
+            );
+
+
+        offerMessage.textContent =
+
+            "Buy " +
+            formatNumber(
+                remaining
+            ) +
+            " Kg more to qualify for this offer.";
+
+
+        freeItemBox.style.display =
+            "none";
+
+
+        freeNote.style.display =
+            "none";
+
+
+        freeProductListing =
+            null;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FIND FREE PRODUCT LISTING
+===================================================== */
+
+function findFreeProductListing(){
+
+    if(!activeOffer){
+
+        freeProductListing =
+            null;
+
+        return;
+
+    }
+
+
+    /*
+       Find an available crop listing
+       matching the admin-selected free product.
+    */
+
+    const matchingCrops =
+        crops.filter(function(crop){
+
+            return sameProduct(
+                crop.product,
+                activeOffer.freeProduct
+            );
+
+        });
+
+
+    if(matchingCrops.length === 0){
+
+        freeProductListing =
+            null;
+
+        return;
+
+    }
+
+
+    /*
+       Prefer the first available listing.
+
+       The item is still free to the customer.
+       Its normal price is NOT added to total.
+    */
+
+    freeProductListing =
+        matchingCrops[0];
+
+}
+
+
+
+/* =====================================================
+   CALCULATE TOTAL
+===================================================== */
+
+function calculateTotal(){
+
+    if(!product){
+
+        return;
+
+    }
+
+
+    let quantity =
+        Number(
+            document.getElementById(
+                "quantity"
+            ).value
+        );
+
+
+    if(
+        !Number.isFinite(quantity) ||
+        quantity < 1
+    ){
+
+        quantity = 1;
+
+        document.getElementById(
+            "quantity"
+        ).value =
+            "1";
+
+    }
+
+
+    const productPrice =
+        Number(product.price);
+
+
+    if(
+        !Number.isFinite(productPrice)
+    ){
+
+        document.getElementById(
+            "total"
+        ).textContent =
+            "0";
+
+        return;
+
+    }
+
+
+    const total =
+        productPrice *
+        quantity;
+
+
+    document.getElementById(
+        "total"
+    ).textContent =
+        formatNumber(total);
+
+
+    /*
+       Update offer status for
+       the newly selected quantity.
+    */
+
+    if(activeOffer){
+
+        updateOfferQualification();
+
+    }
+
+}
+
+
+
+/* =====================================================
+   QUANTITY CHANGE
+===================================================== */
+
+document
+    .getElementById("quantity")
+    .addEventListener(
+        "input",
+        function(){
+
+            calculateTotal();
+
+        }
+    );
+
+
+
+/* =====================================================
+   PLACE ORDER
+===================================================== */
+
+function placeOrder(){
+
+    const checkoutButton =
+        document.getElementById(
+            "checkoutButton"
+        );
+
+
+    /*
+       Prevent duplicate clicks.
+    */
+
+    if(checkoutButton.disabled){
+
+        return;
+
+    }
+
+
+    checkoutButton.disabled =
+        true;
+
+
+    checkoutButton.innerText =
+        "Processing...";
+
+
+    /*
+       Get current user.
+    */
+
+    const currentUser =
+        getStorageObject(
+            "currentClient"
+        );
+
+
+    /*
+       Check login.
+    */
+
+    if(!currentUser){
+
+        alert(
+            "Please login first."
+        );
+
+
+        checkoutButton.disabled =
+            false;
+
+
+        checkoutButton.innerText =
+            "Proceed to Checkout";
+
+
+        window.location.href =
+            "buyer_login.html";
+
+
+        return;
+
+    }
+
+
+    /*
+       Get customer details.
+    */
+
+    const customerName =
+        document
+            .getElementById(
+                "customerName"
+            )
+            .value
+            .trim();
+
+
+    const mobile =
+        document
+            .getElementById(
+                "mobile"
+            )
+            .value
+            .trim();
+
+
+    const address =
+        document
+            .getElementById(
+                "address"
+            )
+            .value
+            .trim();
+
+
+    const quantity =
+        Number(
+            document
+                .getElementById(
+                    "quantity"
+                )
+                .value
+        );
+
+
+    const paymentMethod =
+        document
+            .getElementById(
+                "paymentMethod"
+            )
+            .value;
+
+
+    /*
+       Validate customer details.
+    */
+
+    if(
+        customerName === "" ||
+        mobile === "" ||
+        address === ""
+    ){
+
+        alert(
+            "Please fill all customer details."
+        );
+
+
+        resetCheckoutButton();
+
+
+        return;
+
+    }
+
+
+    /*
+       Validate mobile.
+    */
+
+    if(
+        mobile.length !== 10 ||
+        isNaN(mobile)
+    ){
+
+        alert(
+            "Enter a valid 10-digit mobile number."
+        );
+
+
+        resetCheckoutButton();
+
+
+        return;
+
+    }
+
+
+    /*
+       Validate quantity.
+    */
+
+    if(
+        !Number.isFinite(quantity) ||
+        quantity <= 0
+    ){
+
+        alert(
+            "Please enter a valid quantity."
+        );
+
+
+        resetCheckoutButton();
+
+
+        return;
+
+    }
+
+
+    /*
+       Validate product.
+    */
+
+    if(!product){
+
+        alert(
+            "No product selected."
+        );
+
+
+        resetCheckoutButton();
+
+
+        return;
+
+    }
+
+
+    /*
+       Refresh offer before final checkout.
+
+       This is important because the customer
+       may keep the page open until the offer expires.
+    */
+
+    offers =
+        getStorageArray(
+            "farmxtOffers"
+        );
+
+
+    crops =
+        getStorageArray(
+            "crops"
+        );
+
+
+    findApplicableOffer();
+
+
+    /*
+       Re-check whether the offer qualifies.
+    */
+
+    let qualifyingOffer =
+        null;
+
+
+    if(activeOffer){
+
+        const requiredQuantity =
+            Number(
+                activeOffer.buyQuantity
+            );
+
+
+        if(
+            quantity >= requiredQuantity
+        ){
+
+            qualifyingOffer =
+                activeOffer;
+
+        }
+
+    }
+
+
+    /*
+       Paid total.
+
+       IMPORTANT:
+       Free product is never added
+       to this total.
+    */
+
+    const total =
+        Number(product.price) *
+        quantity;
+
+
+
+    /* =================================================
+       FREE PRODUCT DETAILS
+    ================================================== */
+
+    let freeItem = null;
+
+
+    if(qualifyingOffer){
+
+        /*
+           Try to find an actual crop listing
+           for the free product.
+        */
+
+        const matchingCrops =
+            crops.filter(function(crop){
+
+                return sameProduct(
+                    crop.product,
+                    qualifyingOffer.freeProduct
+                );
+
+            });
+
+
+        if(matchingCrops.length > 0){
+
+            const selectedFreeCrop =
+                matchingCrops[0];
+
+
+            freeItem = {
+
+                productName:
+                    qualifyingOffer.freeProduct,
+
+                quantity:
+                    Number(
+                        qualifyingOffer.freeQuantity
+                    ),
+
+                price:
+                    0,
+
+                farmerName:
+                    selectedFreeCrop.farmerName || "",
+
+                farmerId:
+                    selectedFreeCrop.farmerId || "",
+
+                image:
+                    selectedFreeCrop.image || "",
+
+                offerId:
+                    qualifyingOffer.id,
+
+                offerTitle:
+                    qualifyingOffer.offerTitle
+
+            };
+
+        }
+        else{
+
+            /*
+               The offer exists, but there is
+               currently no matching crop listing.
+
+               Do not silently promise a free
+               product that is unavailable.
+            */
+
+            alert(
+                "The offer is active, but the free product is currently unavailable."
+            );
+
+
+            resetCheckoutButton();
+
+
+            return;
+
+        }
+
+    }
+
+
+
+    /* =================================================
+       LOAD EXISTING ORDERS
+    ================================================== */
+
+    let orders =
+        getStorageArray(
+            "orders"
+        );
+
+
+    /* =================================================
+       CREATE ORDER
+    ================================================== */
+
+    const newOrder = {
+
+        orderId:
+            "ORD" +
+            Date.now(),
+
+
+        buyerId:
+            currentUser.id ||
+            currentUser.mobile ||
+            currentUser.email ||
+            "",
+
+
+        buyerName:
+            currentUser.name ||
+            customerName,
+
+
+        buyerMobile:
+            currentUser.mobile ||
+            mobile,
+
+
+        farmerId:
+            product.farmerId ||
+            "",
+
+
+        productName:
+            product.name,
+
+
+        farmerName:
+            product.farmer ||
+            "",
+
+
+        price:
+            Number(product.price),
+
+
+        quantity:
+            quantity,
+
+
+        total:
+            total,
+
+
+        customerName:
+            customerName,
+
+
+        mobile:
+            mobile,
+
+
+        address:
+            address,
+
+
+        paymentMethod:
+            paymentMethod,
+
+
+        image:
+            product.image || "",
+
+
+        date:
+            new Date().toLocaleString(),
+
+
+        status:
+            "Pending",
+
+
+        /*
+           Offer information.
+        */
+
+        offerApplied:
+            qualifyingOffer !== null,
+
+
+        offerId:
+            qualifyingOffer
+                ? qualifyingOffer.id
+                : "",
+
+
+        offerTitle:
+            qualifyingOffer
+                ? qualifyingOffer.offerTitle
+                : "",
+
+
+        freeItem:
+            freeItem
+
+    };
+
+
+    /*
+       Add order once.
+    */
+
+    orders.push(
+        newOrder
+    );
+
+
+    localStorage.setItem(
+        "orders",
+        JSON.stringify(orders)
+    );
+
+
+    /*
+       Remove selected product
+       so the same checkout page
+       cannot be reused accidentally.
+    */
+
+    localStorage.removeItem(
+        "selectedProduct"
+    );
+
+
+    /*
+       Success message.
+    */
+
+    if(qualifyingOffer){
+
+        alert(
+            "Order placed successfully!\n\n" +
+            "🎁 Free " +
+            qualifyingOffer.freeQuantity +
+            " Kg " +
+            qualifyingOffer.freeProduct +
+            " has been added to your order."
+        );
+
+    }
+    else{
+
+        alert(
+            "Order Placed Successfully!"
+        );
+
+    }
+
+
+    /*
+       Go to confirmation page.
+    */
+
+    window.location.href =
+        "confirm_order.html";
+
+}
+
+
+
+/* =====================================================
+   RESET CHECKOUT BUTTON
+===================================================== */
+
+function resetCheckoutButton(){
+
+    const checkoutButton =
+        document.getElementById(
+            "checkoutButton"
+        );
+
+
+    checkoutButton.disabled =
+        false;
+
+
+    checkoutButton.innerText =
+        "Proceed to Checkout";
+
+}
+
+
+
+/* =====================================================
+   FORMAT NUMBER
+===================================================== */
+
+function formatNumber(value){
+
+    const number =
+        Number(value);
+
+
+    if(!Number.isFinite(number)){
+
+        return "0";
+
+    }
+
+
+    return number.toLocaleString(
+        "en-IN",
+        {
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   INITIALIZE PAGE
+===================================================== */
+
+loadProduct();
+
+</script>
+
+
+</body>
+
+</html>
