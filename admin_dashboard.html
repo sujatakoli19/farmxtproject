@@ -1,0 +1,1530 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-admin_dashboard">
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <div class="logo-section">
+
+        <img src="logo.jpg" class="logo">
+
+        <h2>FarmXT Admin</h2>
+
+    </div>
+
+    <a href="final.html" class="logout">
+        Logout
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <h1>Welcome Admin 👨‍💼</h1>
+
+    <p>
+        Manage farmers, customers, crops and orders efficiently
+        through the FarmXT Admin Dashboard.
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     ADMIN MANAGEMENT CARDS
+===================================================== -->
+
+<section class="container">
+
+
+    <div class="card">
+
+        <h2>👨‍🌾 Manage Farmers</h2>
+
+        <p>
+            View, edit, approve or remove farmer accounts
+            and monitor their crop listings.
+        </p>
+
+        <button onclick="location.href='manage_farmers.html'">
+            Open
+        </button>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h2>🛒 Manage Customers</h2>
+
+        <p>
+            View customer profiles, update account information
+            and remove inactive users.
+        </p>
+
+        <button onclick="location.href='manage_customers.html'">
+            Open
+        </button>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h2>🌾 Manage Crops</h2>
+
+        <p>
+            Add, edit, approve or delete crop listings uploaded
+            by farmers.
+        </p>
+
+        <button onclick="location.href='manage_crops.html'">
+            Open
+        </button>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h2>📦 Manage Orders</h2>
+
+        <p>
+            Track all customer orders, update delivery status
+            and monitor payments.
+        </p>
+
+        <button onclick="location.href='manage_orders.html'">
+            Open
+        </button>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h2>💰 Profit Margin</h2>
+
+        <p>
+            View revenue earned from advertisements, subscriptions,
+            transport and logistics.
+        </p>
+
+        <button onclick="location.href='profit_margin_sources.html'">
+            Open
+        </button>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     OFFER MANAGEMENT
+===================================================== -->
+
+<section class="offer-management">
+
+    <h2>🎁 Offer Management</h2>
+
+
+    <!-- =================================================
+         CREATE OFFER
+    ================================================== -->
+
+    <div class="offer-form">
+
+        <h3>Create New Offer</h3>
+
+        <form id="offerForm">
+
+
+            <!-- OFFER TITLE -->
+
+            <div class="offer-field">
+
+                <label for="offerTitle">
+                    Offer Title
+                </label>
+
+                <input
+                    type="text"
+                    id="offerTitle"
+                    placeholder="Example: Buy vegetables and get curry leaves free"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <br>
+
+
+            <div class="offer-form-grid">
+
+
+                <!-- BUY PRODUCT -->
+
+                <div class="offer-field">
+
+                    <label for="buyProduct">
+                        Product to Buy
+                    </label>
+
+                    <select id="buyProduct" required>
+
+                        <option value="">
+                            Select Product
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- BUY QUANTITY -->
+
+                <div class="offer-field">
+
+                    <label for="buyQuantity">
+                        Required Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="buyQuantity"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="Enter quantity"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- FREE PRODUCT -->
+
+                <div class="offer-field">
+
+                    <label for="freeProduct">
+                        Free Product
+                    </label>
+
+                    <select id="freeProduct" required>
+
+                        <option value="">
+                            Select Free Product
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- FREE QUANTITY -->
+
+                <div class="offer-field">
+
+                    <label for="freeQuantity">
+                        Free Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="freeQuantity"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="Enter free quantity"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- START -->
+
+                <div class="offer-field">
+
+                    <label for="startDateTime">
+                        Offer Starts
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="startDateTime"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- END -->
+
+                <div class="offer-field">
+
+                    <label for="endDateTime">
+                        Offer Ends
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="endDateTime"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="offer-submit"
+            >
+                ➕ Create Offer
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+
+    <!-- =================================================
+         EXISTING OFFERS
+    ================================================== -->
+
+    <h3>Existing Offers</h3>
+
+    <div
+        class="offers-list"
+        id="offersList"
+    ></div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     DYNAMIC STATISTICS
+===================================================== -->
+
+<section class="stats">
+
+
+    <div class="stat-box">
+
+        <h2
+            id="farmerCount"
+            class="stat-number"
+        >
+            0
+        </h2>
+
+        <p>
+            Registered Farmers
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-box">
+
+        <h2
+            id="customerCount"
+            class="stat-number"
+        >
+            0
+        </h2>
+
+        <p>
+            Registered Customers
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-box">
+
+        <h2
+            id="cropCount"
+            class="stat-number"
+        >
+            0
+        </h2>
+
+        <p>
+            Crop Listings
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-box">
+
+        <h2
+            id="orderCount"
+            class="stat-number"
+        >
+            0
+        </h2>
+
+        <p>
+            Orders Processed
+        </p>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <p>
+        © 2026 FarmXT Admin Panel | All Rights Reserved
+    </p>
+
+</footer>
+
+
+
+<script src="chatbot.js"></script>
+
+
+<script>
+
+/* =====================================================
+   FARMXT ADMIN DASHBOARD
+===================================================== */
+
+
+/* =====================================================
+   HELPER: READ ARRAY FROM LOCAL STORAGE
+===================================================== */
+
+function getStorageArray(key){
+
+    try{
+
+        const data = localStorage.getItem(key);
+
+        if(!data){
+            return [];
+        }
+
+        const parsed = JSON.parse(data);
+
+        return Array.isArray(parsed) ? parsed : [];
+
+    }
+    catch(error){
+
+        console.error(
+            "Unable to read localStorage:",
+            key,
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD CROPS
+===================================================== */
+
+let crops =
+    getStorageArray("crops");
+
+
+/* =====================================================
+   LOAD OFFERS
+===================================================== */
+
+let offers =
+    getStorageArray("farmxtOffers");
+
+
+/* =====================================================
+   PRODUCT DROPDOWNS
+===================================================== */
+
+const buyProductSelect =
+    document.getElementById("buyProduct");
+
+const freeProductSelect =
+    document.getElementById("freeProduct");
+
+
+/* =====================================================
+   LOAD PRODUCTS INTO OFFER DROPDOWNS
+===================================================== */
+
+function loadProducts(){
+
+    buyProductSelect.innerHTML =
+        '<option value="">Select Product</option>';
+
+    freeProductSelect.innerHTML =
+        '<option value="">Select Free Product</option>';
+
+
+    const productNames = [
+        ...new Set(
+
+            crops
+                .map(function(crop){
+
+                    return crop.product;
+
+                })
+
+                .filter(function(product){
+
+                    return (
+                        product !== undefined &&
+                        product !== null &&
+                        String(product).trim() !== ""
+                    );
+
+                })
+
+                .map(function(product){
+
+                    return String(product).trim();
+
+                })
+
+        )
+    ];
+
+
+    if(productNames.length === 0){
+
+        buyProductSelect.innerHTML +=
+            '<option value="" disabled>No products available</option>';
+
+        freeProductSelect.innerHTML +=
+            '<option value="" disabled>No products available</option>';
+
+        return;
+
+    }
+
+
+    productNames.sort(
+        function(a,b){
+
+            return a.localeCompare(b);
+
+        }
+    );
+
+
+    productNames.forEach(function(product){
+
+        const buyOption =
+            document.createElement("option");
+
+        buyOption.value =
+            product;
+
+        buyOption.textContent =
+            product;
+
+        buyProductSelect.appendChild(
+            buyOption
+        );
+
+
+        const freeOption =
+            document.createElement("option");
+
+        freeOption.value =
+            product;
+
+        freeOption.textContent =
+            product;
+
+        freeProductSelect.appendChild(
+            freeOption
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   CREATE OFFER
+===================================================== */
+
+document
+    .getElementById("offerForm")
+    .addEventListener(
+        "submit",
+        function(event){
+
+            event.preventDefault();
+
+
+            const offerTitle =
+                document
+                    .getElementById("offerTitle")
+                    .value
+                    .trim();
+
+
+            const buyProduct =
+                buyProductSelect.value;
+
+
+            const buyQuantity =
+                Number(
+                    document
+                        .getElementById("buyQuantity")
+                        .value
+                );
+
+
+            const freeProduct =
+                freeProductSelect.value;
+
+
+            const freeQuantity =
+                Number(
+                    document
+                        .getElementById("freeQuantity")
+                        .value
+                );
+
+
+            const startDateTime =
+                document
+                    .getElementById("startDateTime")
+                    .value;
+
+
+            const endDateTime =
+                document
+                    .getElementById("endDateTime")
+                    .value;
+
+
+            /* =============================================
+               VALIDATION
+            ============================================= */
+
+
+            if(!offerTitle){
+
+                alert(
+                    "Please enter an offer title."
+                );
+
+                return;
+
+            }
+
+
+            if(!buyProduct){
+
+                alert(
+                    "Please select the product to buy."
+                );
+
+                return;
+
+            }
+
+
+            if(!freeProduct){
+
+                alert(
+                    "Please select the free product."
+                );
+
+                return;
+
+            }
+
+
+            if(buyQuantity <= 0){
+
+                alert(
+                    "Required quantity must be greater than 0."
+                );
+
+                return;
+
+            }
+
+
+            if(freeQuantity <= 0){
+
+                alert(
+                    "Free quantity must be greater than 0."
+                );
+
+                return;
+
+            }
+
+
+            const start =
+                new Date(startDateTime);
+
+
+            const end =
+                new Date(endDateTime);
+
+
+            if(
+                isNaN(start.getTime()) ||
+                isNaN(end.getTime())
+            ){
+
+                alert(
+                    "Please select valid offer dates."
+                );
+
+                return;
+
+            }
+
+
+            if(end <= start){
+
+                alert(
+                    "Offer end time must be after start time."
+                );
+
+                return;
+
+            }
+
+
+            /* =============================================
+               CREATE OFFER
+            ============================================= */
+
+            const newOffer = {
+
+                id:
+                    "OFFER_" +
+                    Date.now(),
+
+                offerTitle:
+                    offerTitle,
+
+                buyProduct:
+                    buyProduct,
+
+                buyQuantity:
+                    buyQuantity,
+
+                freeProduct:
+                    freeProduct,
+
+                freeQuantity:
+                    freeQuantity,
+
+                startDateTime:
+                    startDateTime,
+
+                endDateTime:
+                    endDateTime,
+
+                status:
+                    true,
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+
+            /* =============================================
+               SAVE OFFER
+            ============================================= */
+
+            offers.push(newOffer);
+
+
+            localStorage.setItem(
+                "farmxtOffers",
+                JSON.stringify(offers)
+            );
+
+
+            alert(
+                "Offer created successfully!"
+            );
+
+
+            document
+                .getElementById("offerForm")
+                .reset();
+
+
+            displayOffers();
+
+        }
+    );
+
+
+/* =====================================================
+   GET OFFER STATUS
+===================================================== */
+
+function getOfferStatus(offer){
+
+    const now =
+        new Date();
+
+
+    const start =
+        new Date(
+            offer.startDateTime
+        );
+
+
+    const end =
+        new Date(
+            offer.endDateTime
+        );
+
+
+    if(
+        isNaN(start.getTime()) ||
+        isNaN(end.getTime())
+    ){
+
+        return "expired";
+
+    }
+
+
+    if(now < start){
+
+        return "upcoming";
+
+    }
+
+
+    if(
+        now >= start &&
+        now <= end &&
+        offer.status !== false
+    ){
+
+        return "active";
+
+    }
+
+
+    return "expired";
+
+}
+
+
+/* =====================================================
+   DISPLAY OFFERS
+===================================================== */
+
+function displayOffers(){
+
+    const list =
+        document.getElementById(
+            "offersList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    if(offers.length === 0){
+
+        list.innerHTML =
+            `
+            <div class="no-offers">
+                <p>No offers created yet.</p>
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    /*
+       Newest offers appear first.
+    */
+
+    const sortedOffers =
+        [...offers].sort(function(a,b){
+
+            return (
+                new Date(b.createdAt || 0) -
+                new Date(a.createdAt || 0)
+            );
+
+        });
+
+
+    sortedOffers.forEach(function(offer){
+
+        const status =
+            getOfferStatus(offer);
+
+
+        let statusText =
+            "";
+
+
+        if(status === "active"){
+
+            statusText =
+                "ACTIVE";
+
+        }
+        else if(status === "upcoming"){
+
+            statusText =
+                "UPCOMING";
+
+        }
+        else{
+
+            statusText =
+                "EXPIRED";
+
+        }
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "offer-admin-card";
+
+
+        card.innerHTML = `
+
+            <span class="offer-status offer-${status}">
+                ${statusText}
+            </span>
+
+            <h3>
+                ${escapeHTML(
+                    offer.offerTitle
+                )}
+            </h3>
+
+            <p>
+                🛒 Buy:
+                <strong>
+                    ${escapeHTML(
+                        offer.buyProduct
+                    )}
+                </strong>
+            </p>
+
+            <p>
+                Required Quantity:
+                <strong>
+                    ${formatNumber(
+                        offer.buyQuantity
+                    )}
+                </strong>
+            </p>
+
+            <p>
+                🎁 Free:
+                <strong>
+                    ${escapeHTML(
+                        offer.freeProduct
+                    )}
+                </strong>
+            </p>
+
+            <p>
+                Free Quantity:
+                <strong>
+                    ${formatNumber(
+                        offer.freeQuantity
+                    )}
+                </strong>
+            </p>
+
+            <p>
+                🕐 Starts:
+                ${formatDate(
+                    offer.startDateTime
+                )}
+            </p>
+
+            <p>
+                ⏰ Ends:
+                ${formatDate(
+                    offer.endDateTime
+                )}
+            </p>
+
+            <button
+                class="delete-offer"
+                onclick="deleteOffer('${escapeAttribute(offer.id)}')"
+            >
+                🗑 Delete Offer
+            </button>
+
+        `;
+
+
+        list.appendChild(card);
+
+    });
+
+}
+
+
+/* =====================================================
+   DELETE OFFER
+===================================================== */
+
+function deleteOffer(offerId){
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this offer?"
+        );
+
+
+    if(!confirmDelete){
+
+        return;
+
+    }
+
+
+    offers =
+        offers.filter(function(offer){
+
+            return offer.id !== offerId;
+
+        });
+
+
+    localStorage.setItem(
+        "farmxtOffers",
+        JSON.stringify(offers)
+    );
+
+
+    displayOffers();
+
+}
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function formatDate(dateTime){
+
+    const date =
+        new Date(dateTime);
+
+
+    if(
+        !dateTime ||
+        isNaN(date.getTime())
+    ){
+
+        return "Not available";
+
+    }
+
+
+    return date.toLocaleString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT NUMBER
+===================================================== */
+
+function formatNumber(value){
+
+    const number =
+        Number(value);
+
+
+    if(!Number.isFinite(number)){
+
+        return "0";
+
+    }
+
+
+    return number
+        .toLocaleString("en-IN", {
+            maximumFractionDigits:2
+        });
+
+}
+
+
+/* =====================================================
+   SAFE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   SAFE ATTRIBUTE VALUE
+===================================================== */
+
+function escapeAttribute(value){
+
+    return String(value || "")
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /'/g,
+            "\\'"
+        );
+
+}
+
+
+/* =====================================================
+   DYNAMIC STATISTICS
+===================================================== */
+
+
+/*
+   FARMERS
+
+   Main FarmXT farmer storage:
+   farmxtFarmers
+*/
+
+function getFarmersCount(){
+
+    const farmers =
+        getStorageArray(
+            "farmxtFarmers"
+        );
+
+    return farmers.length;
+
+}
+
+
+/*
+   CUSTOMERS
+
+   The dashboard checks the customer
+   storage used by the project.
+
+   Primary:
+   farmxtCustomers
+
+   Compatibility:
+   customers
+   clients
+   farmxtClients
+*/
+
+function getCustomersCount(){
+
+    const customerKeys = [
+
+        "farmxtCustomers",
+
+        "customers",
+
+        "clients",
+
+        "farmxtClients"
+
+    ];
+
+
+    for(
+        let i = 0;
+        i < customerKeys.length;
+        i++
+    ){
+
+        const customers =
+            getStorageArray(
+                customerKeys[i]
+            );
+
+
+        if(customers.length > 0){
+
+            return customers.length;
+
+        }
+
+    }
+
+
+    return 0;
+
+}
+
+
+/*
+   CROPS
+
+   Main FarmXT crop storage:
+   crops
+*/
+
+function getCropsCount(){
+
+    const cropData =
+        getStorageArray(
+            "crops"
+        );
+
+    return cropData.length;
+
+}
+
+
+/*
+   ORDERS
+
+   The dashboard checks common FarmXT
+   order storage keys.
+
+   Primary:
+   orders
+
+   Compatibility:
+   farmxtOrders
+   customerOrders
+*/
+
+function getOrdersCount(){
+
+    const orderKeys = [
+
+        "orders",
+
+        "farmxtOrders",
+
+        "customerOrders"
+
+    ];
+
+
+    for(
+        let i = 0;
+        i < orderKeys.length;
+        i++
+    ){
+
+        const orderData =
+            getStorageArray(
+                orderKeys[i]
+            );
+
+
+        if(orderData.length > 0){
+
+            return orderData.length;
+
+        }
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* =====================================================
+   UPDATE ONE STATISTIC
+===================================================== */
+
+function updateStat(elementId, value){
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.textContent =
+        formatNumber(value);
+
+
+    element.classList.add(
+        "updated"
+    );
+
+
+    setTimeout(function(){
+
+        element.classList.remove(
+            "updated"
+        );
+
+    },250);
+
+}
+
+
+/* =====================================================
+   UPDATE ALL DASHBOARD STATISTICS
+===================================================== */
+
+function updateDashboardStats(){
+
+    const farmerCount =
+        getFarmersCount();
+
+
+    const customerCount =
+        getCustomersCount();
+
+
+    const cropCount =
+        getCropsCount();
+
+
+    const orderCount =
+        getOrdersCount();
+
+
+    updateStat(
+        "farmerCount",
+        farmerCount
+    );
+
+
+    updateStat(
+        "customerCount",
+        customerCount
+    );
+
+
+    updateStat(
+        "cropCount",
+        cropCount
+    );
+
+
+    updateStat(
+        "orderCount",
+        orderCount
+    );
+
+}
+
+
+/* =====================================================
+   REFRESH DATA FROM LOCAL STORAGE
+===================================================== */
+
+function refreshDashboardData(){
+
+    crops =
+        getStorageArray(
+            "crops"
+        );
+
+
+    offers =
+        getStorageArray(
+            "farmxtOffers"
+        );
+
+
+    loadProducts();
+
+    displayOffers();
+
+    updateDashboardStats();
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        refreshDashboardData();
+
+    }
+);
+
+
+/* =====================================================
+   REFRESH WHEN LOCAL STORAGE CHANGES
+   FROM ANOTHER BROWSER TAB
+===================================================== */
+
+window.addEventListener(
+    "storage",
+    function(){
+
+        refreshDashboardData();
+
+    }
+);
+
+
+/* =====================================================
+   REFRESH PERIODICALLY
+
+   This keeps offer status and statistics
+   updated without manually refreshing.
+===================================================== */
+
+setInterval(
+    function(){
+
+        updateDashboardStats();
+
+        displayOffers();
+
+    },
+    30000
+);
+
+</script>
+
+
+</body>
+</html>
