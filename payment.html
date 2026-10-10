@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payment | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-payment">
+    <header class="navbar">
+
+<div class="logo-section">
+
+<img src="logo.jpg" class="logo">
+
+<h2>FarmXT</h2>
+
+</div>
+
+<nav>
+
+<a href="client_dashboard.html">Dashboard</a>
+
+<a href="market_place.html">Marketplace</a>
+
+<a href="my_orders.html">My Orders</a>
+
+<a href="client_profile.html">Profile</a>
+
+<a href="index.html" class="logout">Logout</a>
+
+</nav>
+
+</header>
+<section class="payment-section">
+
+<div class="payment-card">
+
+<h1>Payment</h1>
+
+<form>
+
+<label>Payment Method</label>
+
+<select required>
+
+<option value="">Select Payment Method</option>
+
+<option>UPI</option>
+
+<option>Debit Card</option>
+
+<option>Credit Card</option>
+
+<option>Net Banking</option>
+
+<option>Cash on Delivery</option>
+
+</select>
+
+<label>Amount (₹)</label>
+
+<input
+type="number"
+placeholder="Enter amount"
+required>
+
+<button type="submit">
+Proceed to Pay
+</button>
+
+</form>
+
+</div>
+
+</section>
+<script>
+
+document.querySelector("form").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+alert("Payment Successful!");
+
+window.location.href="post_success.html";
+
+});
+
+</script>
+</body>
+
+</html>
