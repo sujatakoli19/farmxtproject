@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Login | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-admin_login">
+
+<div class="login-box">
+
+<img src="logo.jpg" class="logo" alt="FarmXT Logo">
+
+<h2>👨‍💼 Admin Login</h2>
+
+<p class="subtitle">
+Login using Admin ID and Password
+</p>
+
+<form id="adminLoginForm">
+
+<label>Admin ID</label>
+
+<input
+type="text"
+id="adminId"
+placeholder="Enter Admin ID"
+required>
+
+<label>Password</label>
+
+<input
+type="password"
+id="password"
+placeholder="Enter Password"
+required>
+
+<div class="show">
+
+<input type="checkbox" id="showPassword">
+
+<label for="showPassword">
+Show Password
+</label>
+
+</div>
+
+<button type="submit">
+Login
+</button>
+
+</form>
+
+<div class="links">
+
+<p>
+Don't have an Admin Account?
+<a href="admin_signup.html">
+Sign Up
+</a>
+</p>
+
+<p>
+<a href="final.html">
+🏠 Back to Home
+</a>
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+// Show Password
+document.getElementById("showPassword").addEventListener("change", function () {
+
+    let type = this.checked ? "text" : "password";
+    document.getElementById("password").type = type;
+
+});
+
+// Login
+document.getElementById("adminLoginForm").addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    let enteredId = document.getElementById("adminId").value.trim();
+    let enteredPassword = document.getElementById("password").value.trim();
+
+    // Get all admins
+    let admins = JSON.parse(localStorage.getItem("admins")) || [];
+
+    // No admin accounts exist
+    if (admins.length === 0) {
+
+        let signup = confirm(
+            "No Admin Account Found.\n\nWould you like to create one?"
+        );
+
+        if (signup) {
+            window.location.href = "admin_signup.html";
+        }
+
+        return;
+    }
+
+    // Find matching admin
+    let admin = admins.find(function (a) {
+        return a.id === enteredId && a.password === enteredPassword;
+    });
+
+    if (admin) {
+
+        localStorage.setItem("currentAdmin", JSON.stringify(admin));
+        localStorage.setItem("userType", "Admin");
+
+        alert("Admin Login Successful!");
+
+        window.location.href = "admin_dashboard.html";
+
+    } else {
+
+        alert("Invalid Admin ID or Password!");
+
+    }
+
+});
+</script>
+
+</body>
+</html>
