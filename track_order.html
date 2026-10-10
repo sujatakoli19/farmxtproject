@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Track Order | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-track_order">
+    <header class="navbar">
+
+<div class="logo-section">
+
+<img src="logo.jpg" class="logo">
+
+<h2>FarmXT</h2>
+
+</div>
+
+<nav>
+
+<a href="client_dashboard.html">Dashboard</a>
+
+<a href="market_place.html">Marketplace</a>
+
+<a href="my_orders.html">My Orders</a>
+
+<a href="client_profile.html">Profile</a>
+
+<a href="index.html" class="logout">Logout</a>
+
+</nav>
+
+</header>
+<section class="tracking-section">
+
+<h1>Track Your Order</h1>
+
+<div class="tracking-card">
+
+<h2>Order Status</h2>
+
+<div class="timeline">
+
+<div class="step active">
+<div class="circle">✓</div>
+<p>Order Placed</p>
+</div>
+
+<div class="line"></div>
+
+<div class="step">
+<div class="circle">2</div>
+<p>Accepted</p>
+</div>
+
+<div class="line"></div>
+
+<div class="step">
+<div class="circle">3</div>
+<p>Shipped</p>
+</div>
+
+<div class="line"></div>
+
+<div class="step">
+<div class="circle">4</div>
+<p>Delivered</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const steps = document.querySelectorAll(".step");
+
+let current = 0;
+
+setInterval(() => {
+
+if(current < steps.length-1){
+
+current++;
+
+steps[current].classList.add("active");
+
+}
+
+},3000);
+
+</script>
+</body>
+
+</html>
