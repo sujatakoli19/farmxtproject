@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Farmer Upload Product | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-farmer_upload">
+
+<div class="container">
+
+<h1>🌾 Upload Product</h1>
+
+<form id="productForm">
+
+<input
+type="text"
+id="name"
+placeholder="Product Name"
+required>
+
+<input
+type="text"
+id="farmer"
+placeholder="Farmer Name"
+required>
+
+<input
+type="text"
+id="location"
+placeholder="Location"
+required>
+
+<select id="category" required>
+
+<option value="">Select Category</option>
+
+<option>Vegetables</option>
+
+<option>Fruits</option>
+
+<option>Grains</option>
+
+<option>Dairy</option>
+
+<option>Organic</option>
+
+</select>
+
+<input
+type="number"
+id="price"
+placeholder="Price per Kg"
+required>
+
+<textarea
+id="description"
+placeholder="Product Description"
+required></textarea>
+
+<label>Upload Product Image</label>
+
+<input
+type="file"
+id="image"
+accept="image/*"
+required>
+
+<button type="submit">
+
+Upload Product
+
+</button>
+
+</form>
+
+<a href="market_place.html" class="back">
+
+⬅ Go to Marketplace
+
+</a>
+
+</div>
+
+<script>
+
+document.getElementById("productForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let file=document.getElementById("image").files[0];
+
+if(!file){
+
+alert("Please select an image.");
+
+return;
+
+}
+
+let reader=new FileReader();
+
+reader.onload=function(){
+
+let products=
+JSON.parse(localStorage.getItem("products")) || [];
+
+products.push({
+
+name:document.getElementById("name").value,
+
+farmer:document.getElementById("farmer").value,
+
+location:document.getElementById("location").value,
+
+category:document.getElementById("category").value,
+
+price:document.getElementById("price").value,
+
+description:document.getElementById("description").value,
+
+image:reader.result
+
+});
+
+localStorage.setItem(
+
+"products",
+
+JSON.stringify(products)
+
+);
+
+alert("Product Uploaded Successfully!");
+
+document.getElementById("productForm").reset();
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+</script>
+
+</body>
+</html>
