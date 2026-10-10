@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bulk Buyer Login | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-bulk_buyer_login">
+
+
+<div class="login-box">
+
+
+    <img
+        src="logo.jpg"
+        class="logo"
+        alt="FarmXT Logo">
+
+
+    <h2>
+        🏪 Bulk Buyer Login
+    </h2>
+
+
+    <p class="subtitle">
+        Login using Mobile OTP
+    </p>
+
+
+    <form id="loginForm">
+
+
+    
+<label for="mobile">Mobile Number</label>
+
+<input
+    type="tel"
+    id="mobile"
+    name="mobile"
+    maxlength="10"
+    minlength="10"
+    pattern="[0-9]{10}"
+    inputmode="numeric"
+    placeholder="Enter 10-digit Mobile Number"
+    autocomplete="tel-national"
+    required>
+
+
+        <button
+            type="button"
+            id="sendOtp">
+
+            Send OTP
+
+        </button>
+
+
+        <div id="otpSection">
+
+
+            <label>
+                Enter OTP
+            </label>
+
+
+            <input
+                type="text"
+                id="otp"
+                maxlength="6"
+                placeholder="Enter 6-digit OTP">
+
+
+            <div
+                class="timer"
+                id="timer">
+            </div>
+
+
+            <button
+                type="submit">
+
+                Verify OTP & Login
+
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+    <div class="links">
+
+
+        <p>
+
+            New Bulk Buyer?
+
+            <a href="./bulk_buyer_signup.html">
+
+                Create Account
+
+            </a>
+
+        </p>
+
+
+        <p>
+
+            <a href="final.html">
+
+                🏠 Back to Home
+
+            </a>
+
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+// =====================================================
+// OTP VARIABLES
+// =====================================================
+
+let generatedOTP = "";
+
+let seconds = 30;
+
+let timer;
+
+
+
+// Allow only digits and a maximum of 10 characters
+const mobileInput = document.getElementById("mobile");
+
+mobileInput.addEventListener("input", function () {
+    this.value = this.value.replace(/[^0-9]/g, "").slice(0, 10);
+});
+
+// =====================================================
+// SEND OTP
+// =====================================================
+
+document
+.getElementById("sendOtp")
+.addEventListener(
+    "click",
+    function(){
+
+        let mobile =
+            document
+            .getElementById("mobile")
+            .value
+            .trim();
+
+
+        // Check mobile number
+
+       if (!/^[0-9]{10}$/.test(mobile)) {
+    alert("Please enter exactly 10 digits for the mobile number.");
+    return;
+}
+
+
+        // =================================================
+        // CHECK BULK BUYER ACCOUNT
+        // =================================================
+
+        let bulkBuyers =
+            JSON.parse(
+                localStorage.getItem("bulkBuyers")
+            ) || [];
+
+
+        let buyer =
+            bulkBuyers.find(
+                function(b){
+
+                    return b.mobile === mobile;
+
+                }
+            );
+
+
+
+        if(!buyer){
+
+            alert(
+                "No Bulk Buyer account found. Please Sign Up first."
+            );
+
+            return;
+
+        }
+
+
+
+        // =================================================
+        // GENERATE DEMO OTP
+        // =================================================
+
+        generatedOTP =
+            Math.floor(
+                100000 +
+                Math.random() * 900000
+            ).toString();
+
+
+        alert(
+            "Demo OTP : " +
+            generatedOTP
+        );
+
+
+
+        // Show OTP section
+
+        document
+        .getElementById("otpSection")
+        .style.display =
+            "block";
+
+
+        this.disabled = true;
+
+
+
+        // =================================================
+        // TIMER
+        // =================================================
+
+        seconds = 30;
+
+
+        document
+        .getElementById("timer")
+        .innerHTML =
+            "Resend OTP in " +
+            seconds +
+            " sec";
+
+
+        timer =
+            setInterval(
+                function(){
+
+                    seconds--;
+
+
+                    document
+                    .getElementById("timer")
+                    .innerHTML =
+                        "Resend OTP in " +
+                        seconds +
+                        " sec";
+
+
+                    if(seconds <= 0){
+
+                        clearInterval(timer);
+
+
+                        document
+                        .getElementById("sendOtp")
+                        .disabled =
+                            false;
+
+
+                        document
+                        .getElementById("timer")
+                        .innerHTML =
+                            "You can resend OTP now.";
+
+                    }
+
+                },
+                1000
+            );
+
+    }
+);
+
+
+
+// =====================================================
+// VERIFY OTP
+// =====================================================
+
+document
+.getElementById("loginForm")
+.addEventListener(
+    "submit",
+    function(e){
+
+        e.preventDefault();
+
+
+        let enteredOTP =
+            document
+            .getElementById("otp")
+            .value
+            .trim();
+
+
+
+        if(
+            enteredOTP === generatedOTP
+        ){
+
+
+            // =============================================
+            // GET BULK BUYER
+            // =============================================
+
+            let bulkBuyers =
+                JSON.parse(
+                    localStorage.getItem("bulkBuyers")
+                ) || [];
+
+
+            let mobile =
+                document
+                .getElementById("mobile")
+                .value
+                .trim();
+
+
+            let buyer =
+                bulkBuyers.find(
+                    function(b){
+
+                        return b.mobile === mobile;
+
+                    }
+                );
+
+
+
+            // =============================================
+            // SAVE LOGIN
+            // =============================================
+
+            localStorage.setItem(
+                "userType",
+                "BulkBuyer"
+            );
+
+
+            localStorage.setItem(
+                "currentBulkBuyer",
+                JSON.stringify(buyer)
+            );
+
+
+
+            alert(
+                "Login Successful!"
+            );
+
+
+            // =============================================
+            // OPEN DASHBOARD
+            // =============================================
+
+            window.location.href =
+                "bulk_buyer_dashboard.html";
+
+
+        }else{
+
+            alert(
+                "Invalid OTP!"
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
