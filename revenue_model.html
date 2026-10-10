@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>FarmXT Revenue Model</title>
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-revenue_model">
+
+
+<div class="container">
+
+
+<img src="logo.jpg" alt="FarmXT Logo" class="logo">
+
+
+<h1>💰 FarmXT Profit Margin Sources</h1>
+
+
+<label>Select Revenue Source:</label>
+
+
+<select id="revenueType">
+
+    <option>Advertisements</option>
+
+    <option>Subscriptions</option>
+
+    <option>Transport Charges</option>
+
+    <option>Logistics Services</option>
+
+</select>
+
+
+<label>Profit Earned (₹):</label>
+
+
+<input type="number" id="amount" placeholder="Enter amount">
+
+
+
+<button onclick="showRevenue()">
+    📊 Display Profit
+</button>
+
+
+
+<hr>
+
+
+
+<h2>Revenue Details</h2>
+
+
+<div id="result">
+    No revenue data submitted yet.
+</div>
+
+
+
+</div>
+
+
+
+<script>
+
+function showRevenue(){
+
+    let revenueType =
+    document.getElementById("revenueType").value;
+
+    let amount =
+    Number(document.getElementById("amount").value);
+
+    if(amount<=0){
+
+        alert("Please enter a valid amount.");
+
+        return;
+
+    }
+
+    let description="";
+
+    if(revenueType=="Advertisements"){
+
+        description=
+        "Income earned from advertisements displayed on the FarmXT platform.";
+
+    }
+
+    else if(revenueType=="Subscriptions"){
+
+        description=
+        "Income earned from premium subscriptions purchased by users.";
+
+    }
+
+    else if(revenueType=="Transport Charges"){
+
+        description=
+        "Income earned from transporting products from farmers to customers.";
+
+    }
+
+    else if(revenueType=="Logistics Services"){
+
+        description=
+        "Income earned through logistics and delivery management.";
+
+    }
+
+    document.getElementById("result").innerHTML=
+
+    `<span class="highlight">Profit Source:</span> ${revenueType}<br>
+
+    <span class="highlight">Profit Earned:</span> ₹${amount}<br><br>
+
+    ${description}`;
+
+}
+</script>
+
+
+
+</body>
+</html>
