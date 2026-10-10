@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Update Terms & Conditions | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-update_terms_conditions">
+
+<header>
+
+<div class="logo">
+
+<img src="logo.jpg">
+
+<h2>FarmXT Admin</h2>
+
+</div>
+
+<a href="admin_dashboard.html" class="back-btn">
+
+← Back to Dashboard
+
+</a>
+
+</header>
+
+<div class="container">
+
+<h1>📜 Update Terms & Conditions</h1>
+
+<p>
+
+Modify the platform Terms & Conditions below.
+Click <b>Save Changes</b> to update them for all users.
+
+</p>
+
+<textarea id="termsBox"></textarea>
+
+<button onclick="saveTerms()">
+
+💾 Save Changes
+
+</button>
+
+<div class="status" id="status"></div>
+
+</div>
+
+<footer>
+
+© 2026 FarmXT | Admin Panel
+
+</footer>
+
+<script>
+
+// Default Terms
+
+const defaultTerms = `Welcome to FarmXT
+
+1. Farmers must provide genuine crop and profile information.
+
+2. Buyers must make payments honestly.
+
+3. Fraudulent activities are strictly prohibited.
+
+4. Users must maintain respectful communication.
+
+5. FarmXT reserves the right to suspend or remove accounts violating platform policies.
+
+6. Prices displayed are determined by sellers.
+
+7. Transport and logistics charges may vary based on location.
+
+8. FarmXT is not responsible for losses caused by natural disasters or third-party transport providers.
+
+9. Users are responsible for protecting their login credentials.
+
+10. By using FarmXT, you agree to follow these Terms & Conditions.`;
+
+// Load existing terms
+
+window.onload = function(){
+
+let savedTerms = localStorage.getItem("termsConditions");
+
+if(savedTerms){
+
+document.getElementById("termsBox").value = savedTerms;
+
+}else{
+
+document.getElementById("termsBox").value = defaultTerms;
+
+}
+
+};
+
+// Save Terms
+
+function saveTerms(){
+
+let terms = document.getElementById("termsBox").value;
+
+localStorage.setItem("termsConditions", terms);
+
+const status = document.getElementById("status");
+
+status.innerHTML = "✔ Terms & Conditions Updated Successfully!";
+
+alert("Terms & Conditions Updated Successfully!");
+
+setTimeout(function(){
+    status.innerHTML = "";
+},3000);
+
+}
+
+</script>
+
+</body>
+</html>
