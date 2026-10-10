@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Profit Calculation System</title>
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-profit_calculation_system">
+
+
+<div class="container">
+
+
+<img src="logo.jpg" alt="FarmXT Logo" class="logo">
+
+
+<h1>🌾 FarmXT Profit Calculator</h1>
+
+
+<label>Crop Name:</label>
+
+<input type="text" id="crop" placeholder="Enter crop name">
+
+
+<label>Total Farming Cost (₹):</label>
+
+<input type="number" id="cost" placeholder="Enter farming cost">
+
+
+<label>Total Selling Amount (₹):</label>
+
+<input type="number" id="selling" placeholder="Enter selling amount">
+
+
+<button onclick="calculateProfit()">
+    📊 Calculate Profit
+</button>
+
+
+<div id="result"></div>
+
+
+</div>
+
+
+
+<script>
+
+function calculateProfit(){
+
+    let crop=document.getElementById("crop").value;
+    let cost=Number(document.getElementById("cost").value);
+    let selling=Number(document.getElementById("selling").value);
+
+
+    if(crop==="" || cost<=0 || selling<=0){
+
+        alert("Please enter valid details.");
+        return;
+
+    }
+
+
+    let profit=selling-cost;
+
+    let status=profit>=0 ? "Profit" : "Loss";
+
+
+    let result=document.getElementById("result");
+
+    result.style.display="block";
+
+
+    if(profit>=0){
+
+        result.innerHTML=
+        `<div>${crop} - ${status}</div>
+        <div class="profit">₹ ${profit}</div>`;
+
+    }
+    else{
+
+        result.innerHTML=
+        `<div>${crop} - ${status}</div>
+        <div class="loss">₹ ${profit}</div>`;
+
+    }
+
+}
+
+</script>
+
+
+</body>
+</html>
