@@ -1,0 +1,1243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Farmer Sign Up | FarmXT</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-farmer_sign_up">
+
+
+<div class="signup-box">
+
+
+    <!-- =====================================================
+         LOGO
+    ====================================================== -->
+
+    <img
+        src="logo.jpg"
+        class="logo"
+        alt="FarmXT Logo"
+    >
+
+
+    <h2>👨‍🌾 Farmer Sign Up</h2>
+
+
+    <form id="signupForm">
+
+
+        <!-- =================================================
+             FULL NAME
+        ================================================== -->
+
+        <label for="farmerName">
+            Full Name
+        </label>
+
+        <input
+            type="text"
+            id="farmerName"
+            maxlength="50"
+            placeholder="Enter Full Name"
+            autocomplete="name"
+            required
+        >
+
+
+        <!-- =================================================
+             MOBILE
+        ================================================== -->
+
+        <label for="mobile">
+            Mobile Number
+        </label>
+
+        <input
+            type="text"
+            id="mobile"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="Enter 10-digit Mobile Number"
+            required
+        >
+
+        <p
+            id="mobileMessage"
+            class="mobile-message"
+        >
+            Enter a 10-digit mobile number.
+        </p>
+
+
+        <!-- =================================================
+             VILLAGE / CITY
+        ================================================== -->
+
+        <label for="village">
+            Village / City
+        </label>
+
+        <input
+            type="text"
+            id="village"
+            maxlength="100"
+            placeholder="Enter Village or City"
+            autocomplete="address-level2"
+            required
+        >
+
+
+        <!-- =================================================
+             GOVERNMENT FARMER PROOF
+        ================================================== -->
+
+        <div class="upload-section">
+
+
+            <label for="agriculturalProofType">
+                Government Farmer Proof
+            </label>
+
+
+            <select
+                id="agriculturalProofType"
+                name="agriculturalProofType"
+                required
+            >
+
+                <option value="">
+                    Select Government Farmer Proof
+                </option>
+
+                <option value="e-Adangal / Adangal">
+                    e-Adangal / Adangal
+                </option>
+
+                <option value="Patta / Chitta">
+                    Patta / Chitta
+                </option>
+
+                <option value="PM-KISAN">
+                    PM-KISAN
+                </option>
+
+                <option value="Kisan Credit Card (KCC)">
+                    Kisan Credit Card (KCC)
+                </option>
+
+                <option value="Other eligible government farmer document">
+                    Other eligible government farmer document
+                </option>
+
+            </select>
+
+
+            <label for="agriculturalProof">
+                Upload Selected Government Proof
+            </label>
+
+
+            <input
+                type="file"
+                id="agriculturalProof"
+                name="agriculturalProof"
+                accept=".jpg,.jpeg,.png,.pdf"
+                required
+            >
+
+
+            <p class="upload-note">
+                Upload a clear copy of the selected government farmer
+                document. Accepted formats: JPG, JPEG, PNG, PDF.
+                Maximum size: 2 MB.
+            </p>
+
+
+            <div
+                id="agriculturalProofPreviewBox"
+                class="ration-preview-box"
+                style="display:none;"
+            >
+
+                <p class="preview-title">
+                    Selected Document
+                </p>
+
+                <p
+                    id="agriculturalProofFileName"
+                    class="preview-file-name"
+                ></p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             AADHAAR AUTHENTICATION
+        ================================================== -->
+
+        <div class="aadhaar-section">
+
+
+            <h3>
+                🪪 Aadhaar Authentication
+            </h3>
+
+
+            <!-- TEST MODE NOTICE -->
+
+            <div
+                style="
+                    background:rgba(250,204,21,0.12);
+                    border:1px solid rgba(250,204,21,0.45);
+                    color:#facc15;
+                    padding:12px 14px;
+                    border-radius:10px;
+                    margin-bottom:15px;
+                    font-size:13px;
+                    line-height:1.5;
+                "
+            >
+
+                <strong>⚠️ TEST MODE</strong>
+
+                <br>
+
+                Aadhaar verification is simulated for
+                frontend testing.
+
+                No real Aadhaar verification server is
+                being contacted.
+
+                Enter any 12-digit number to test
+                the registration flow.
+
+            </div>
+
+
+            <p class="demo-note">
+                Aadhaar verification is required before registration.
+            </p>
+
+
+            <label for="aadhaar">
+                Aadhaar Number
+            </label>
+
+
+            <div class="aadhaar-row">
+
+
+                <input
+                    type="text"
+                    id="aadhaar"
+                    maxlength="12"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="Enter 12-digit Aadhaar number"
+                >
+
+
+                <button
+                    type="button"
+                    id="verifyAadhaarBtn"
+                    class="verify-btn"
+                >
+                    Verify Aadhaar
+                </button>
+
+
+            </div>
+
+
+            <div
+                id="aadhaarStatus"
+                class="aadhaar-status"
+            ></div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             REGISTER
+        ================================================== -->
+
+        <button type="submit">
+            Register
+        </button>
+
+
+    </form>
+
+
+    <!-- =====================================================
+         LINKS
+    ====================================================== -->
+
+    <div class="links">
+
+
+        <p>
+
+            Already have an account?
+
+            <a href="farmer_login.html">
+                Login
+            </a>
+
+        </p>
+
+
+        <p>
+
+            <a href="index.html">
+                🏠 Back to Home
+            </a>
+
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   FARMXT FARMER SIGNUP
+   =========================================================
+
+   CURRENT MODE:
+   --------------
+   FRONTEND TEST MODE
+
+   Aadhaar verification DOES NOT call a backend server.
+
+   Any exactly 12-digit number is accepted for testing.
+
+   Later, the backend team can replace only the Aadhaar
+   verification section with their real API.
+
+   Farmer registration currently uses localStorage so the
+   frontend can be tested without a backend.
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+let aadhaarVerified = false;
+
+
+/* =========================================================
+   NAME VALIDATION
+   ========================================================= */
+
+const farmerNameInput =
+    document.getElementById("farmerName");
+
+
+farmerNameInput.addEventListener(
+    "input",
+    function () {
+
+        this.value =
+            this.value.replace(/[^A-Za-z ]/g, "");
+
+    }
+);
+
+
+/* =========================================================
+   MOBILE VALIDATION
+   ========================================================= */
+
+const mobileInput =
+    document.getElementById("mobile");
+
+
+const mobileMessage =
+    document.getElementById("mobileMessage");
+
+
+function updateMobileMessage() {
+
+    const digits =
+        mobileInput.value;
+
+    const remaining =
+        10 - digits.length;
+
+
+    if (digits.length === 0) {
+
+        mobileMessage.textContent =
+            "Enter a 10-digit mobile number.";
+
+        mobileMessage.className =
+            "mobile-message";
+
+        return;
+    }
+
+
+    if (digits.length < 10) {
+
+        mobileMessage.textContent =
+            "⚠️ Please enter " +
+            remaining +
+            " more digit" +
+            (remaining === 1 ? "" : "s") +
+            ".";
+
+        mobileMessage.className =
+            "mobile-message error";
+
+        return;
+    }
+
+
+    if (!/^[6-9]/.test(digits)) {
+
+        mobileMessage.textContent =
+            "⚠️ Mobile number should start with 6, 7, 8, or 9.";
+
+        mobileMessage.className =
+            "mobile-message error";
+
+        return;
+    }
+
+
+    mobileMessage.textContent =
+        "✅ 10-digit mobile number entered.";
+
+    mobileMessage.className =
+        "mobile-message success";
+
+}
+
+
+/* =========================================================
+   MOBILE INPUT
+   ========================================================= */
+
+mobileInput.addEventListener(
+    "input",
+    function () {
+
+        this.value =
+            this.value
+            .replace(/[^0-9]/g, "")
+            .slice(0, 10);
+
+        updateMobileMessage();
+
+    }
+);
+
+
+/* =========================================================
+   MOBILE BLUR
+   ========================================================= */
+
+mobileInput.addEventListener(
+    "blur",
+    function () {
+
+        updateMobileMessage();
+
+    }
+);
+
+
+/* =========================================================
+   MOBILE PASTE
+   ========================================================= */
+
+mobileInput.addEventListener(
+    "paste",
+    function () {
+
+        setTimeout(() => {
+
+            this.value =
+                this.value
+                .replace(/[^0-9]/g, "")
+                .slice(0, 10);
+
+            updateMobileMessage();
+
+        }, 0);
+
+    }
+);
+
+
+/* =========================================================
+   MOBILE ENTER KEY
+   ========================================================= */
+
+mobileInput.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key !== "Enter") {
+            return;
+        }
+
+
+        event.preventDefault();
+
+
+        const digits =
+            mobileInput.value.trim();
+
+
+        if (digits.length < 10) {
+
+            updateMobileMessage();
+
+            mobileInput.focus();
+
+            return;
+
+        }
+
+
+        if (digits.length === 10) {
+
+            if (!/^[6-9][0-9]{9}$/.test(digits)) {
+
+                mobileMessage.textContent =
+                    "⚠️ Mobile number should start with 6, 7, 8, or 9.";
+
+                mobileMessage.className =
+                    "mobile-message error";
+
+                mobileInput.focus();
+
+                return;
+
+            }
+
+
+            const villageInput =
+                document.getElementById("village");
+
+
+            villageInput.focus();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   AGRICULTURAL PROOF
+   ========================================================= */
+
+const agriculturalProof =
+    document.getElementById(
+        "agriculturalProof"
+    );
+
+
+const agriculturalProofPreviewBox =
+    document.getElementById(
+        "agriculturalProofPreviewBox"
+    );
+
+
+const agriculturalProofFileName =
+    document.getElementById(
+        "agriculturalProofFileName"
+    );
+
+
+agriculturalProof.addEventListener(
+    "change",
+    function () {
+
+        const file =
+            this.files[0];
+
+
+        if (!file) {
+
+            agriculturalProofPreviewBox.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        const allowedTypes = [
+
+            "image/jpeg",
+
+            "image/png",
+
+            "application/pdf"
+
+        ];
+
+
+        /* Validate file type */
+
+        if (!allowedTypes.includes(file.type)) {
+
+            alert(
+                "Please upload only JPG, JPEG, PNG, or PDF files."
+            );
+
+            this.value = "";
+
+            agriculturalProofPreviewBox.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        /* Maximum size = 2 MB */
+
+        if (file.size > 2 * 1024 * 1024) {
+
+            alert(
+                "Government farmer proof must be smaller than 2 MB."
+            );
+
+            this.value = "";
+
+            agriculturalProofPreviewBox.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        /* Show selected file */
+
+        agriculturalProofFileName.textContent =
+            "Selected file: " + file.name;
+
+
+        agriculturalProofPreviewBox.style.display =
+            "block";
+
+    }
+);
+
+
+/* =========================================================
+   AADHAAR ELEMENTS
+   ========================================================= */
+
+const aadhaarInput =
+    document.getElementById("aadhaar");
+
+
+const verifyAadhaarBtn =
+    document.getElementById(
+        "verifyAadhaarBtn"
+    );
+
+
+const aadhaarStatus =
+    document.getElementById(
+        "aadhaarStatus"
+    );
+
+
+/* =========================================================
+   AADHAAR INPUT
+   ========================================================= */
+
+aadhaarInput.addEventListener(
+    "input",
+    function () {
+
+        /*
+            Allow only numbers.
+            Maximum 12 digits.
+        */
+
+        this.value =
+            this.value
+            .replace(/\D/g, "")
+            .slice(0, 12);
+
+
+        /*
+            If Aadhaar is changed after
+            verification, verification
+            becomes invalid again.
+        */
+
+        aadhaarVerified =
+            false;
+
+
+        aadhaarStatus.style.display =
+            "none";
+
+    }
+);
+
+
+/* =========================================================
+   SHOW AADHAAR STATUS
+   ========================================================= */
+
+function showAadhaarStatus(
+    message,
+    className
+) {
+
+    aadhaarStatus.textContent =
+        message;
+
+
+    aadhaarStatus.className =
+        "aadhaar-status " + className;
+
+
+    aadhaarStatus.style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   AADHAAR VERIFICATION
+   =========================================================
+
+   FRONTEND TEST MODE
+
+   IMPORTANT:
+   ----------------
+   There is NO fetch().
+   There is NO API call.
+   There is NO server connection.
+
+   Any exactly 12-digit number is accepted.
+
+   Example:
+
+   123456789012  → TEST SUCCESS
+   987654321098  → TEST SUCCESS
+
+   This is ONLY for frontend testing.
+
+   The backend team can later replace this section
+   with the real Aadhaar verification API.
+   ========================================================= */
+
+verifyAadhaarBtn.addEventListener(
+    "click",
+    async function () {
+
+        const aadhaar =
+            aadhaarInput.value.trim();
+
+
+        /* =================================================
+           VALIDATE AADHAAR
+        ================================================= */
+
+        if (!/^[0-9]{12}$/.test(aadhaar)) {
+
+            showAadhaarStatus(
+                "Please enter exactly 12 digits.",
+                "aadhaar-error"
+            );
+
+
+            aadhaarVerified =
+                false;
+
+
+            return;
+
+        }
+
+
+        /* =================================================
+           SHOW LOADING
+        ================================================= */
+
+        verifyAadhaarBtn.disabled =
+            true;
+
+
+        verifyAadhaarBtn.textContent =
+            "Verifying...";
+
+
+        showAadhaarStatus(
+            "Testing Aadhaar verification...",
+            "aadhaar-loading"
+        );
+
+
+        /* =================================================
+           SIMULATED VERIFICATION DELAY
+           
+           IMPORTANT:
+           No server request is made.
+        ================================================= */
+
+        await new Promise(
+            resolve =>
+                setTimeout(resolve, 700)
+        );
+
+
+        /* =================================================
+           TEST MODE SUCCESS
+        ================================================= */
+
+        aadhaarVerified =
+            true;
+
+
+        showAadhaarStatus(
+            "✓ Aadhaar verified successfully (Test Mode).",
+            "aadhaar-success"
+        );
+
+
+        /* =================================================
+           RESTORE BUTTON
+        ================================================= */
+
+        verifyAadhaarBtn.disabled =
+            false;
+
+
+        verifyAadhaarBtn.textContent =
+            "Verified ✓";
+
+    }
+);
+
+
+/* =========================================================
+   REGISTER FARMER
+   ========================================================= */
+
+document
+    .getElementById("signupForm")
+    .addEventListener(
+        "submit",
+        function (e) {
+
+            e.preventDefault();
+
+
+            /* =================================================
+               GET VALUES
+            ================================================= */
+
+            const farmerName =
+                document
+                .getElementById("farmerName")
+                .value
+                .trim();
+
+
+            const mobile =
+                document
+                .getElementById("mobile")
+                .value
+                .trim();
+
+
+            const village =
+                document
+                .getElementById("village")
+                .value
+                .trim();
+
+
+            const agriculturalProof =
+                document.getElementById(
+                    "agriculturalProof"
+                );
+
+
+            const agriculturalProofTypeValue =
+                document
+                .getElementById(
+                    "agriculturalProofType"
+                )
+                .value;
+
+
+            /* =================================================
+               VALIDATE NAME
+            ================================================= */
+
+            if (!/^[A-Za-z ]+$/.test(farmerName)) {
+
+                alert(
+                    "Farmer name should contain only letters and spaces."
+                );
+
+                farmerNameInput.focus();
+
+                return;
+
+            }
+
+
+            /* =================================================
+               VALIDATE MOBILE
+            ================================================= */
+
+            if (mobile.length < 10) {
+
+                alert(
+                    "Please enter " +
+                    (10 - mobile.length) +
+                    " more digit" +
+                    (
+                        (10 - mobile.length) === 1
+                            ? ""
+                            : "s"
+                    ) +
+                    " in the mobile number."
+                );
+
+
+                mobileInput.focus();
+
+                updateMobileMessage();
+
+                return;
+
+            }
+
+
+            if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+
+                alert(
+                    "Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9."
+                );
+
+
+                mobileInput.focus();
+
+                updateMobileMessage();
+
+                return;
+
+            }
+
+
+            /* =================================================
+               VALIDATE VILLAGE
+            ================================================= */
+
+            if (village === "") {
+
+                alert(
+                    "Please enter Village / City."
+                );
+
+                document
+                .getElementById("village")
+                .focus();
+
+                return;
+
+            }
+
+
+            /* =================================================
+               VALIDATE GOVERNMENT PROOF TYPE
+            ================================================= */
+
+            if (
+                agriculturalProofTypeValue === ""
+            ) {
+
+                alert(
+                    "Please select your Government Farmer Proof."
+                );
+
+
+                document
+                .getElementById(
+                    "agriculturalProofType"
+                )
+                .focus();
+
+
+                return;
+
+            }
+
+
+            /* =================================================
+               VALIDATE GOVERNMENT PROOF FILE
+            ================================================= */
+
+            if (!agriculturalProof.files.length) {
+
+                alert(
+                    "Please upload your selected Government Farmer Proof (" +
+                    agriculturalProofTypeValue +
+                    ")."
+                );
+
+
+                agriculturalProof.focus();
+
+                return;
+
+            }
+
+
+            const selectedProof =
+                agriculturalProof.files[0];
+
+
+            const allowedProofTypes = [
+
+                "image/jpeg",
+
+                "image/png",
+
+                "application/pdf"
+
+            ];
+
+
+            if (
+                !allowedProofTypes.includes(
+                    selectedProof.type
+                )
+            ) {
+
+                alert(
+                    "Please upload only JPG, JPEG, PNG, or PDF files."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                selectedProof.size >
+                2 * 1024 * 1024
+            ) {
+
+                alert(
+                    "Agricultural proof must be smaller than 2 MB."
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               AADHAAR VERIFICATION
+            ================================================= */
+
+            if (!aadhaarVerified) {
+
+                alert(
+                    "Please verify your Aadhaar before registration."
+                );
+
+
+                aadhaarInput.focus();
+
+                return;
+
+            }
+
+
+            /* =================================================
+               GET FARMERS FROM LOCAL STORAGE
+            ================================================= */
+
+            let farmers =
+                JSON.parse(
+                    localStorage.getItem(
+                        "farmxtFarmers"
+                    )
+                ) || [];
+
+
+            /* =================================================
+               CHECK DUPLICATE MOBILE
+            ================================================= */
+
+            const exists =
+                farmers.some(
+                    farmer =>
+                        farmer.mobile === mobile
+                );
+
+
+            if (exists) {
+
+                alert(
+                    "This mobile number is already registered. Please login."
+                );
+
+                return;
+
+            }
+
+
+            /* =================================================
+               CONVERT PROOF TO BASE64
+            ================================================= */
+
+            const selectedProofForStorage =
+                agriculturalProof.files[0];
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    const agriculturalProofBase64 =
+                        event.target.result;
+
+
+                    /* =========================================
+                       CREATE FARMER OBJECT
+                    ========================================= */
+
+                    const farmer = {
+
+                        id:
+                            "FARMER_" +
+                            Date.now(),
+
+                        name:
+                            farmerName,
+
+                        mobile:
+                            mobile,
+
+                        village:
+                            village,
+
+                        agriculturalProofType:
+                            agriculturalProofTypeValue,
+
+                        agriculturalProof:
+                            agriculturalProofBase64,
+
+                        agriculturalProofFileName:
+                            selectedProofForStorage.name,
+
+                        /*
+                            Test-mode Aadhaar flag.
+
+                            This is NOT real Aadhaar
+                            authentication.
+                        */
+
+                        aadhaarVerified:
+                            true,
+
+                        aadhaarVerificationMode:
+                            "TEST_MODE",
+
+                        createdAt:
+                            new Date().toISOString()
+
+                    };
+
+
+                    /* =========================================
+                       SAVE FARMER
+                    ========================================= */
+
+                    farmers.push(
+                        farmer
+                    );
+
+
+                    localStorage.setItem(
+                        "farmxtFarmers",
+                        JSON.stringify(farmers)
+                    );
+
+
+                    /* =========================================
+                       SUCCESS
+                    ========================================= */
+
+                    alert(
+                        "Farmer Registration Successful!\n\n" +
+                        "Aadhaar verification was completed in TEST MODE."
+                    );
+
+
+                    /* =========================================
+                       REDIRECT TO FARMER LOGIN
+                    ========================================= */
+
+                    window.location.href =
+                        "farmer_login.html";
+
+                };
+
+
+            /* =================================================
+               READ FILE
+            ================================================= */
+
+            reader.readAsDataURL(
+                selectedProofForStorage
+            );
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
