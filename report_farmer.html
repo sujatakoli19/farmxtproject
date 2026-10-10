@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Report Farmer | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-report_farmer">
+
+<header class="navbar">
+
+<div class="logo-section">
+<img src="logo.jpg" class="logo">
+<h2>FarmXT</h2>
+</div>
+
+<nav>
+<a href="final.html">Home</a>
+<a href="community_network.html">Community</a>
+<a href="contact.html">Contact</a>
+</nav>
+
+</header>
+
+<div class="container">
+
+<h1>🚨 Report Farmer</h1>
+
+<p class="subtitle">
+Help us keep FarmXT safe by reporting suspicious farmers.
+</p>
+
+<form id="reportForm">
+
+<label>Name of User</label>
+
+<input
+type="text"
+id="userName"
+placeholder="Enter Farmer Name"
+required>
+
+<label>Mobile Number (Optional)</label>
+
+<input
+type="tel"
+id="mobile"
+placeholder="Enter Mobile Number">
+
+<label>Reason for Report</label>
+
+<select id="reason" required>
+<option value="">Select Reason</option>
+<option>Fake Product</option>
+<option>Fraud</option>
+<option>Abusive Behaviour</option>
+<option>Spam</option>
+<option>Payment Issue</option>
+<option>Other</option>
+</select>
+
+<label>Describe the Issue</label>
+
+<textarea
+id="description"
+placeholder="Write complete details about the issue..."
+required></textarea>
+<button type="submit">
+Submit Report
+</button>
+
+</form>
+
+<a href="final.html" class="back">⬅ Back to Home</a>
+
+</div>
+
+<script>
+
+
+document.getElementById("reportForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    let report = {
+
+        reportedBy: currentUser ? currentUser.name : "Guest",
+
+        userType: "Farmer",
+
+        userName: document.getElementById("userName").value,
+
+        mobile: document.getElementById("mobile").value,  
+
+        reason: document.getElementById("reason").value,
+
+        description: document.getElementById("description").value,
+
+        date: new Date().toLocaleString()
+
+    };
+
+    let reports = JSON.parse(localStorage.getItem("reports")) || [];
+
+    reports.push(report);
+
+    localStorage.setItem("reports", JSON.stringify(reports));
+
+    alert("✅ Farmer reported successfully.");
+
+    this.reset();
+
+    window.location.href = "final.html";
+
+});
+
+</script>
+
+
+</body>
+</html>
