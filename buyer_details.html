@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Buyer Details | FarmXT</title>
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-buyer_details">
+
+<div class="container">
+
+    <img src="logo.jpg" class="logo" alt="FarmXT Logo">
+
+    <h1>🏪 Buyer Details</h1>
+
+    <div id="buyerContent"></div>
+
+</div>
+
+
+<script>
+
+let buyer =
+JSON.parse(localStorage.getItem("selectedBuyer"));
+
+let container =
+document.getElementById("buyerContent");
+
+
+/* ===== CHECK WHETHER BUYER EXISTS ===== */
+
+if(!buyer){
+
+    container.innerHTML = `
+
+        <div class="error">
+
+            <h2>Buyer Not Found</h2>
+
+            <p>
+                The selected buyer information is not available.
+            </p>
+
+            <br>
+
+            <a href="market_place.html" class="btn">
+                ← Back to Marketplace
+            </a>
+
+        </div>
+
+    `;
+
+}else{
+
+    container.innerHTML = `
+
+        <h2>🏪 Business Information</h2>
+
+        <div class="details">
+
+            <div class="detail-box">
+
+                <div class="label">
+                    Business Name
+                </div>
+
+                <div class="value">
+                    ${buyer.businessName || "Not Available"}
+                </div>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <div class="label">
+                    Owner Name
+                </div>
+
+                <div class="value">
+                    ${buyer.ownerName || "Not Available"}
+                </div>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <div class="label">
+                    Buyer Type
+                </div>
+
+                <div class="value">
+                    ${buyer.type || "Not Available"}
+                </div>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <div class="label">
+                    Location
+                </div>
+
+                <div class="value">
+                    ${buyer.location || "Not Available"}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="requirement">
+
+            <h2>🌾 Buyer Requirement</h2>
+
+            <p>
+                <strong>Crop Needed:</strong>
+                ${buyer.cropNeeded || "Not Available"}
+            </p>
+
+            <p>
+                <strong>Quantity Required:</strong>
+                ${buyer.quantity || "Not Available"}
+            </p>
+
+            <p>
+                <strong>Price Offered:</strong>
+                ₹${buyer.priceOffered || "Not Available"}
+            </p>
+
+            <p>
+                <strong>Requirement Details:</strong>
+                ${buyer.requirement || "No details provided"}
+            </p>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <a
+                href="market_place.html"
+                class="btn back-btn">
+
+                ← Back to Marketplace
+
+            </a>
+
+        </div>
+
+    `;
+
+}
+
+</script>
+
+</body>
+</html>
