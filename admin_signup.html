@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Sign Up | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-admin_signup">
+
+<div class="signup-box">
+
+<img src="logo.jpg" class="logo" alt="FarmXT Logo">
+
+<h2>👨‍💼 Admin Sign Up</h2>
+
+<p class="subtitle">
+Create your Admin Account
+</p>
+
+<form id="adminSignupForm">
+
+<label>Admin Name</label>
+
+<input
+type="text"
+id="adminName"
+placeholder="Enter Admin Name"
+required>
+
+<label>Admin ID</label>
+
+<input
+type="text"
+id="adminId"
+placeholder="Create Admin ID"
+required>
+
+<label>Email Address</label>
+
+<input
+type="email"
+id="email"
+placeholder="Enter Email Address"
+required>
+
+<label>Create Password</label>
+
+<input
+type="password"
+id="password"
+placeholder="Create Password"
+required>
+
+<label>Confirm Password</label>
+
+<input
+type="password"
+id="confirmPassword"
+placeholder="Confirm Password"
+required>
+
+<div class="show">
+
+<input type="checkbox" id="showPassword">
+
+<label for="showPassword">
+Show Password
+</label>
+
+</div>
+
+<button type="submit">
+Create Account
+</button>
+
+</form>
+
+<div class="links">
+
+<p>
+Already have an account?
+<a href="admin_login.html">Login</a>
+</p>
+
+<p>
+<a href="final.html">🏠 Back to Home</a>
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+// Show / Hide Password
+
+document.getElementById("showPassword").addEventListener("change", function(){
+
+let type = this.checked ? "text" : "password";
+
+document.getElementById("password").type = type;
+document.getElementById("confirmPassword").type = type;
+
+});
+
+// Sign Up
+document.getElementById("adminSignupForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    let adminName = document.getElementById("adminName").value.trim();
+    let adminId = document.getElementById("adminId").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
+    let confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    if(password !== confirmPassword){
+        alert("Passwords do not match!");
+        return;
+    }
+
+    // Get all existing admins
+    let admins = JSON.parse(localStorage.getItem("admins")) || [];
+
+    // Check duplicate Admin ID
+    let idExists = admins.some(admin => admin.id === adminId);
+
+    if(idExists){
+        alert("Admin ID already exists!");
+        return;
+    }
+
+    // Check duplicate Email
+    let emailExists = admins.some(admin => admin.email === email);
+
+    if(emailExists){
+        alert("Email already registered!");
+        return;
+    }
+
+    // Create new admin
+    let admin = {
+        name: adminName,
+        id: adminId,
+        email: email,
+        password: password
+    };
+
+    // Add to array
+    admins.push(admin);
+
+    // Save back
+    localStorage.setItem("admins", JSON.stringify(admins));
+
+    alert("Admin Account Created Successfully!");
+
+    window.location.href = "admin_login.html";
+
+});
+
+
+
+</script>
+
+</body>
+</html>
