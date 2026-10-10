@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>community | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-community_network">
+    <section class="community-section">
+
+<h1>🌱 Community Network</h1>
+
+<div class="post-card">
+
+<h2>Create a Post</h2>
+
+<textarea placeholder="Share your farming experience, ask a question or give advice..."></textarea>
+
+<button>Post</button>
+
+</div>
+
+<div class="feed-card">
+
+<h2>Community Feed</h2>
+
+<p>No posts yet. Start the conversation with other farmers!</p>
+
+</div>
+
+</section>
+<script>
+
+const button = document.querySelector("button");
+const textarea = document.querySelector("textarea");
+const feed = document.querySelector(".feed-card");
+
+button.onclick = function(){
+
+if(textarea.value.trim()==""){
+
+alert("Please write something before posting.");
+return;
+
+}
+
+feed.innerHTML += "<hr><p>" + textarea.value + "</p>";
+
+textarea.value="";
+
+}
+
+</script>
+</body>
+
+</html>
