@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Customers | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-manage_customers">
+
+<header class="navbar">
+
+<div class="logo-section">
+
+<img src="logo.jpg" class="logo">
+
+<h2>FarmXT Admin</h2>
+
+</div>
+
+<a href="admin_dashboard.html" class="back-btn">⬅ Dashboard</a>
+
+</header>
+
+<section class="heading">
+
+<h1>🛒 Manage Customers</h1>
+
+<p>View, edit and remove registered customer accounts.</p>
+<button onclick="window.location.href='manage_customers.html'"></button>
+
+
+</section>
+
+<div class="table-container">
+
+<table id="customerTable">
+
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>City</th>
+<th>Email</th>
+<th>Actions</th>
+</tr>
+
+<tr>
+<td>C001</td>
+<td>Rahul Sharma</td>
+<td>9876543210</td>
+<td>Mumbai</td>
+<td>rahul@gmail.com</td>
+<td>
+<button class="edit" onclick="editCustomer(this)">Edit</button>
+<button class="delete" onclick="deleteCustomer(this)">Delete</button>
+</td>
+</tr>
+
+<tr>
+<td>C002</td>
+<td>Priya Patel</td>
+<td>9988776655</td>
+<td>Pune</td>
+<td>priya@gmail.com</td>
+<td>
+<button class="edit" onclick="editCustomer(this)">Edit</button>
+<button class="delete" onclick="deleteCustomer(this)">Delete</button>
+</td>
+</tr>
+
+<tr>
+<td>C003</td>
+<td>Amit Verma</td>
+<td>9123456789</td>
+<td>Nashik</td>
+<td>amit@gmail.com</td>
+<td>
+<button class="edit" onclick="editCustomer(this)">Edit</button>
+<button class="delete" onclick="deleteCustomer(this)">Delete</button>
+</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="footer">
+
+© 2026 FarmXT Admin Panel
+
+</div>
+
+<script>
+
+function deleteCustomer(btn){
+
+if(confirm("Are you sure you want to delete this customer?")){
+
+btn.parentElement.parentElement.remove();
+
+}
+
+}
+
+function editCustomer(btn){
+
+let row=btn.parentElement.parentElement;
+
+let name=prompt("Edit Customer Name",row.cells[1].innerHTML);
+
+if(name!=null && name!=""){
+row.cells[1].innerHTML=name;
+}
+
+let mobile=prompt("Edit Mobile Number",row.cells[2].innerHTML);
+
+if(mobile!=null && mobile!=""){
+row.cells[2].innerHTML=mobile;
+}
+
+let city=prompt("Edit City",row.cells[3].innerHTML);
+
+if(city!=null && city!=""){
+row.cells[3].innerHTML=city;
+}
+
+let email=prompt("Edit Email",row.cells[4].innerHTML);
+
+if(email!=null && email!=""){
+row.cells[4].innerHTML=email;
+}
+
+alert("Customer details updated successfully.");
+
+}
+
+</script>
+
+</body>
+</html>
