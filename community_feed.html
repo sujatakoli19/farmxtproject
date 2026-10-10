@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FarmXT Community Feed</title>
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-community_feed">
+
+
+<div class="container">
+
+
+<img src="logo.jpg" alt="FarmXT Logo" class="logo">
+
+
+<h1>🌾 FarmXT Community Feed</h1>
+
+
+<h2>Latest Farmer Updates</h2>
+
+
+
+<div class="feed-card">
+
+<p>
+<strong>Ramesh:</strong>
+<br>
+I have 200kg onions ready for sale. Looking for nearby buyers.
+</p>
+
+<span class="date">
+Posted: Today
+</span>
+
+<br>
+
+<button onclick="likePost(this)">
+❤️ Like
+</button>
+
+
+<div class="comment-box">
+
+<input type="text" placeholder="Write a comment">
+
+<button>
+💬 Comment
+</button>
+
+</div>
+
+</div>
+
+
+
+
+<div class="feed-card">
+
+<p>
+<strong>Suresh:</strong>
+<br>
+Tomato prices are high in Mumbai market today. Farmers can get better returns.
+</p>
+
+<span class="date">
+Posted: Yesterday
+</span>
+
+<br>
+
+<button onclick="likePost(this)">
+❤️ Like
+</button>
+
+
+<div class="comment-box">
+
+<input type="text" placeholder="Write a comment">
+
+<button>
+💬 Comment
+</button>
+
+</div>
+
+</div>
+
+
+
+
+<div class="feed-card">
+
+<p>
+<strong>Mahesh:</strong>
+<br>
+Looking for bulk buyers for potatoes. Contact me through FarmXT.
+</p>
+
+<span class="date">
+Posted: 2 days ago
+</span>
+
+<br>
+
+<button onclick="likePost(this)">
+❤️ Like
+</button>
+
+
+<div class="comment-box">
+
+<input type="text" placeholder="Write a comment">
+
+<button>
+💬 Comment
+</button>
+
+</div>
+
+</div>
+
+
+
+<button class="back-btn" onclick="window.location.href='farmer_dashboard.html'">
+
+🏠 Back to Dashboard
+
+</button>
+</div>
+<script>
+function likePost(button){
+    button.innerHTML="❤️ Liked";
+
+    button.style.background="#c026d3";
+
+}
+
+</script>
+
+
+</body>
+</html>
