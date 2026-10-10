@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Buyer Profile | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-edit_buyer_profile">
+
+<div class="container">
+
+<h1>👤 Edit Profile</h1>
+
+<p class="subtitle">
+Update your business information
+</p>
+
+<label>Business Name</label>
+
+<input
+type="text"
+id="businessName">
+
+<label>Owner Name</label>
+
+<input
+type="text"
+id="ownerName">
+
+<label>Mobile Number</label>
+
+<input
+type="text"
+id="mobile"
+readonly>
+
+<label>Address</label>
+
+<textarea id="address"></textarea>
+
+<label>Business Type</label>
+
+<select id="businessType">
+
+<option>Restaurant</option>
+<option>Hotel</option>
+<option>Retail Store</option>
+<option>MSME</option>
+<option>Wholesaler</option>
+
+</select>
+
+<button onclick="saveProfile()">
+
+Save Changes
+
+</button>
+
+<a href="buyer_dashboard.html" class="back">
+
+⬅ Back to Dashboard
+
+</a>
+
+</div>
+
+<script>
+
+// Get logged in buyer
+
+let buyer = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!buyer){
+
+alert("Please login first.");
+
+window.location.href="buyer_login.html";
+
+}
+
+// Load details
+
+document.getElementById("businessName").value = buyer.businessName;
+
+document.getElementById("ownerName").value = buyer.ownerName;
+
+document.getElementById("mobile").value = buyer.mobile;
+
+document.getElementById("address").value = buyer.address;
+
+document.getElementById("businessType").value = buyer.businessType;
+
+// Save profile
+
+function saveProfile(){
+
+let buyers = JSON.parse(localStorage.getItem("buyers")) || [];
+
+let index = buyers.findIndex(b => b.mobile === buyer.mobile);
+
+if(index == -1){
+
+alert("Buyer not found.");
+
+return;
+
+}
+
+buyers[index].businessName =
+document.getElementById("businessName").value;
+
+buyers[index].ownerName =
+document.getElementById("ownerName").value;
+
+buyers[index].address =
+document.getElementById("address").value;
+
+buyers[index].businessType =
+document.getElementById("businessType").value;
+
+// Save updated list
+
+localStorage.setItem(
+"buyers",
+JSON.stringify(buyers)
+);
+
+// Update current user
+
+localStorage.setItem(
+"currentUser",
+JSON.stringify(buyers[index])
+);
+
+alert("Profile Updated Successfully!");
+
+window.location.href="buyer_dashboard.html";
+
+}
+
+</script>
+
+</body>
+</html>
