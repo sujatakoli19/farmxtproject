@@ -1,0 +1,845 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bulk Buyer Requirements | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-farmer_bulk_requirements">
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+
+    <div class="logo-section">
+
+        <img
+            src="logo.jpg"
+            class="logo"
+            alt="FarmXT Logo">
+
+        <h2>
+            FarmXT
+        </h2>
+
+    </div>
+
+
+    <nav>
+
+        <a href="farmer_dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="produce_type.html">
+            Upload Crop
+        </a>
+
+        <a href="featured_listings.html">
+            My Crops
+        </a>
+
+        <a href="farmer_orders.html">
+            Orders
+        </a>
+
+        <a
+            href="#"
+            class="logout"
+            onclick="logout(event)">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<section class="header">
+
+    <h1>
+        🤝 Bulk Buyer Requirements
+    </h1>
+
+
+    <p>
+
+        View crop requirements posted by
+        Bulk Buyers and connect with them
+        if you can supply the required crop.
+
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     REQUIREMENTS
+===================================================== -->
+
+<div class="container">
+
+    <div
+        class="requirements"
+        id="requirementsContainer">
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <p>
+        © 2026 FarmXT |
+        Empowering Farmers Through Technology
+    </p>
+
+    <p>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+        |
+
+        <a href="community_network.html">
+            Community
+        </a>
+
+        |
+
+        <a href="transparency.html">
+            Transparency
+        </a>
+
+    </p>
+
+</footer>
+
+
+
+<script>
+
+
+// =====================================================
+// CHECK FARMER LOGIN
+// =====================================================
+
+let farmer = JSON.parse(
+    localStorage.getItem("currentFarmer")
+);
+
+
+if(!farmer){
+
+    alert(
+        "Please login as a Farmer first."
+    );
+
+    window.location.href =
+        "farmer_login.html";
+
+}
+
+
+
+// =====================================================
+// LOAD BULK BUYER REQUIREMENTS
+// =====================================================
+
+function loadRequirements(){
+
+    let requirements =
+        JSON.parse(
+            localStorage.getItem(
+                "bulkBuyerRequirements"
+            )
+        ) || [];
+
+
+    let container =
+        document.getElementById(
+            "requirementsContainer"
+        );
+
+
+
+    // Only open requirements
+
+    let openRequirements =
+        requirements.filter(
+            function(requirement){
+
+                return (
+                    !requirement.status ||
+                    requirement.status === "Open"
+                );
+
+            }
+        );
+
+
+
+    // =================================================
+    // NO REQUIREMENTS
+    // =================================================
+
+    if(openRequirements.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <h2>
+                    🌾 No Requirements Available
+                </h2>
+
+                <p>
+
+                    There are currently no open
+                    Bulk Buyer requirements.
+
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    container.innerHTML = "";
+
+
+
+    // =================================================
+    // DISPLAY REQUIREMENTS
+    // =================================================
+
+    openRequirements.forEach(
+        function(requirement){
+
+            container.innerHTML += `
+
+                <div
+                    class="requirement-card"
+                    id="requirement-${requirement.id}">
+
+
+                    <div class="business">
+
+                        🏪 ${
+                            requirement.businessName ||
+                            "Bulk Buyer"
+                        }
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <strong>
+                            🌾 Crop Needed:
+                        </strong>
+
+                        ${
+                            requirement.cropNeeded ||
+                            "Not Available"
+                        }
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <strong>
+                            📦 Quantity Required:
+                        </strong>
+
+                        ${
+                            requirement.quantity ||
+                            "Not Available"
+                        }
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <strong>
+                            📍 Delivery Location:
+                        </strong>
+
+                        ${
+                            requirement.deliveryLocation ||
+                            "Not Available"
+                        }
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <strong>
+                            📅 Required Date:
+                        </strong>
+
+                        ${
+                            requirement.deliveryDate ||
+                            "Not Available"
+                        }
+
+                    </div>
+
+
+                    <div class="requirement-details">
+
+                        <strong>
+                            📝 Requirement Details:
+                        </strong>
+
+                        <br>
+
+                        ${
+                            requirement.requirement ||
+                            "No details provided"
+                        }
+
+                    </div>
+
+
+                    <span class="status">
+
+                        🟢 Open Requirement
+
+                    </span>
+
+
+                  <div class="interest-actions">
+
+    <button
+        class="interest-btn"
+        onclick="showInterest(${requirement.id})">
+
+        🤝 I'm Interested
+
+    </button>
+
+    <button
+        class="not-interest-btn"
+        onclick="showNotInterested(${requirement.id})">
+
+        ❌ Not Interested
+
+    </button>
+
+</div>
+
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// FARMER SHOWS INTEREST
+// =====================================================
+
+function showInterest(requirementId){
+
+    if(!farmer){
+
+        alert(
+            "Please login as a Farmer first."
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // GET REQUIREMENTS
+    // =================================================
+
+    let requirements =
+        JSON.parse(
+            localStorage.getItem(
+                "bulkBuyerRequirements"
+            )
+        ) || [];
+
+
+    let requirement =
+        requirements.find(
+            function(item){
+
+                return item.id == requirementId;
+
+            }
+        );
+
+
+    if(!requirement){
+
+        alert(
+            "Requirement not found."
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // GET EXISTING INTERESTS
+    // =================================================
+
+    let interests =
+        JSON.parse(
+            localStorage.getItem(
+                "bulkBuyerInterests"
+            )
+        ) || [];
+
+
+    // =================================================
+    // CHECK DUPLICATE RESPONSE
+    // =================================================
+
+    let alreadyResponded =
+        interests.some(
+            function(interest){
+
+                return (
+
+                    interest.requirementId ==
+                    requirementId
+
+                    &&
+
+                    interest.farmerId ==
+                    farmer.id
+
+                );
+
+            }
+        );
+
+
+    if(alreadyResponded){
+
+        alert(
+            "You have already responded to this requirement."
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // CREATE INTEREST
+    // =================================================
+
+    let newInterest = {
+
+        id:
+            Date.now(),
+
+        requirementId:
+            requirement.id,
+
+        buyerId:
+            requirement.buyerId,
+
+        buyerBusinessName:
+            requirement.businessName,
+
+        farmerId:
+            farmer.id,
+
+        farmerName:
+            farmer.name ||
+            farmer.farmerName ||
+            "Farmer",
+
+        availableCrop:
+            requirement.cropNeeded,
+
+        availableQuantity:
+            requirement.quantity,
+
+        deliveryDate:
+            requirement.deliveryDate,
+
+        message:
+            "I am interested in supplying this requirement.",
+
+        status:
+            "Pending",
+
+        createdAt:
+            new Date().toLocaleString()
+
+    };
+
+
+    // =================================================
+    // SAVE INTEREST
+    // =================================================
+
+    interests.push(
+        newInterest
+    );
+
+
+    localStorage.setItem(
+        "bulkBuyerInterests",
+        JSON.stringify(interests)
+    );
+
+
+    // =================================================
+    // UPDATE BUTTONS
+    // =================================================
+
+    let card =
+        document.getElementById(
+            "requirement-" +
+            requirementId
+        );
+
+
+    if(card){
+
+        let buttons =
+            card.querySelectorAll(
+                ".interest-actions button"
+            );
+
+
+        buttons.forEach(
+            function(button){
+
+                button.disabled = true;
+
+            }
+        );
+
+
+        let interestButton =
+            buttons[0];
+
+
+        if(interestButton){
+
+            interestButton.innerText =
+                "✓ Interest Sent";
+
+        }
+
+    }
+
+
+    alert(
+        "Your interest has been sent to the Bulk Buyer!"
+    );
+
+}
+
+
+
+
+
+// =====================================================
+// FARMER SHOWS NOT INTERESTED
+// =====================================================
+
+function showNotInterested(requirementId){
+
+    if(!farmer){
+
+        alert(
+            "Please login as a Farmer first."
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // GET REQUIREMENTS
+    // =================================================
+
+    let requirements =
+        JSON.parse(
+            localStorage.getItem(
+                "bulkBuyerRequirements"
+            )
+        ) || [];
+
+
+    let requirement =
+        requirements.find(
+            function(item){
+
+                return item.id == requirementId;
+
+            }
+        );
+
+
+    if(!requirement){
+
+        alert(
+            "Requirement not found."
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // GET EXISTING INTERESTS
+    // =================================================
+
+    let interests =
+        JSON.parse(
+            localStorage.getItem(
+                "bulkBuyerInterests"
+            )
+        ) || [];
+
+
+    // =================================================
+    // CHECK DUPLICATE RESPONSE
+    // =================================================
+
+    let alreadyResponded =
+        interests.some(
+            function(interest){
+
+                return (
+
+                    interest.requirementId ==
+                    requirementId
+
+                    &&
+
+                    interest.farmerId ==
+                    farmer.id
+
+                );
+
+            }
+        );
+
+
+    if(alreadyResponded){
+
+        alert(
+            "You have already responded to this requirement."
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // CREATE NOT INTERESTED RECORD
+    // =================================================
+
+    let newInterest = {
+
+        id:
+            Date.now(),
+
+        requirementId:
+            requirement.id,
+
+        buyerId:
+            requirement.buyerId,
+
+        buyerBusinessName:
+            requirement.businessName,
+
+        farmerId:
+            farmer.id,
+
+        farmerName:
+            farmer.name ||
+            farmer.farmerName ||
+            "Farmer",
+
+        availableCrop:
+            requirement.cropNeeded,
+
+        availableQuantity:
+            requirement.quantity,
+
+        deliveryDate:
+            requirement.deliveryDate,
+
+        message:
+            "Farmer is not interested in this requirement.",
+
+        status:
+            "Not Interested",
+
+        createdAt:
+            new Date().toLocaleString()
+
+    };
+
+
+    // =================================================
+    // SAVE RESPONSE
+    // =================================================
+
+    interests.push(
+        newInterest
+    );
+
+
+    localStorage.setItem(
+        "bulkBuyerInterests",
+        JSON.stringify(interests)
+    );
+
+
+    // =================================================
+    // UPDATE BUTTONS
+    // =================================================
+
+    let card =
+        document.getElementById(
+            "requirement-" +
+            requirementId
+        );
+
+
+    if(card){
+
+        let buttons =
+            card.querySelectorAll(
+                ".interest-actions button"
+            );
+
+
+        buttons.forEach(
+            function(button){
+
+                button.disabled = true;
+
+            }
+        );
+
+
+        let notInterestedButton =
+            buttons[1];
+
+
+        if(notInterestedButton){
+
+            notInterestedButton.innerText =
+                "✓ Not Interested";
+
+        }
+
+    }
+
+
+    alert(
+        "Your response has been sent to the Bulk Buyer."
+    );
+
+}
+// =====================================================
+// LOGOUT
+// =====================================================
+
+function logout(event){
+
+    event.preventDefault();
+
+
+    localStorage.removeItem(
+        "currentFarmer"
+    );
+
+
+    localStorage.removeItem(
+        "userType"
+    );
+
+
+    alert(
+        "Logged Out Successfully!"
+    );
+
+
+    window.location.href =
+        "final.html";
+
+}
+
+
+
+// =====================================================
+// LOAD PAGE
+// =====================================================
+
+if(farmer){
+
+    loadRequirements();
+
+}
+
+</script>
+
+
+</body>
+
+</html>
