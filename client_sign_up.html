@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Client Sign Up | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="page-client_sign_up">
+
+<div class="signup-box">
+
+<img src="logo.jpg" class="logo">
+
+<h2>🛒 Client Sign Up</h2>
+
+
+<form id="signupForm">
+
+
+<!-- FULL NAME -->
+
+<label>Full Name</label>
+
+<input
+    type="text"
+    id="name"
+    maxlength="50"
+    placeholder="Enter Full Name"
+    required
+>
+
+
+<!-- EMAIL -->
+
+<label>Email</label>
+
+<input
+    type="email"
+    id="email"
+    placeholder="Enter Email"
+    required
+>
+
+
+<!-- MOBILE -->
+
+<label>Mobile Number</label>
+
+<input
+    type="text"
+    id="mobile"
+    maxlength="10"
+    inputmode="numeric"
+    autocomplete="off"
+    placeholder="Enter 10-digit Mobile Number"
+    required
+>
+
+<p id="mobileMessage" class="mobile-message">
+    Enter a 10-digit mobile number.
+</p>
+
+
+<!-- ADDRESS -->
+
+<label>Address</label>
+
+<input
+    type="text"
+    id="address"
+    placeholder="Enter Address"
+    required
+>
+
+
+<!-- ================================
+     RATION CARD TYPE
+================================ -->
+
+<div class="ration-type-section">
+
+    <label>Ration Card Type</label>
+
+    <div class="ration-options">
+
+        <label class="ration-option">
+
+            <input
+                type="radio"
+                name="rationType"
+                value="Pink Ration Card"
+                required
+            >
+             Green Ration Card
+
+        </label>
+
+
+        <label class="ration-option">
+
+            <input
+                type="radio"
+                name="rationType"
+                value="White Ration Card"
+            >
+             White Ration Card
+
+        </label>
+
+    </div>
+
+</div>
+
+
+<!-- ================================
+     RATION CARD PHOTO
+================================ -->
+
+<div class="upload-section">
+
+    <label>Upload Ration Card Photo</label>
+
+    <input
+        type="file"
+        id="rationPhoto"
+        accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+        required
+    >
+
+    <p class="upload-note">
+        Upload a clear photo of the original ration card.
+        Make sure the complete card is visible, all details are readable,
+        and there is no glare or blur.
+        Accepted formats: JPG, JPEG, PNG. Maximum size: 2 MB.
+    </p>
+
+
+    <div
+        id="rationPreviewBox"
+        class="ration-preview-box"
+        style="display:none;"
+    >
+
+        <p class="preview-title">
+            Photo Preview
+        </p>
+
+        <img
+            id="rationPreview"
+            class="ration-preview"
+            alt="Ration Card Preview"
+        >
+
+        <p
+            id="rationFileName"
+            class="preview-file-name">
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ================================
+     AADHAAR VERIFICATION
+================================ -->
+
+<div class="aadhaar-section">
+
+    <h3>🪪 Aadhaar Authentication</h3>
+
+    <p class="aadhaar-note">
+        Aadhaar verification is required before registration.
+    </p>
+
+    <label>Aadhaar Number</label>
+
+    <div class="aadhaar-row">
+
+        <input
+            type="text"
+            id="aadhaar"
+            maxlength="12"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="Enter 12-digit Aadhaar number"
+        >
+
+        <button
+            type="button"
+            id="verifyAadhaarBtn"
+            class="verify-btn">
+
+            Verify Aadhaar
+
+        </button>
+
+    </div>
+
+    <div
+        id="aadhaarStatus"
+        class="aadhaar-status">
+    </div>
+
+</div>
+
+
+<!-- REGISTER -->
+
+<button type="submit">
+    Sign Up
+</button>
+
+</form>
+
+
+<div class="links">
+
+<p>
+    Already have an account?
+    <a href="client_login.html">
+        Login
+    </a>
+</p>
+
+<p>
+    <a href="final.html">
+        🏠 Back to Home
+    </a>
+</p>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   VARIABLES
+================================ */
+
+let aadhaarVerified = false;
+
+
+/* ================================
+   NAME VALIDATION
+================================ */
+
+const nameInput =
+    document.getElementById("name");
+
+nameInput.addEventListener("input", function(){
+
+    this.value =
+        this.value.replace(/[^A-Za-z ]/g, "");
+
+});
+
+
+/* ================================
+   MOBILE VALIDATION
+================================ */
+
+const mobileInput =
+    document.getElementById("mobile");
+
+const mobileMessage =
+    document.getElementById("mobileMessage");
+
+
+function updateMobileMessage(){
+
+    const digits =
+        mobileInput.value;
+
+    const remaining =
+        10 - digits.length;
+
+
+    if(digits.length === 0){
+
+        mobileMessage.textContent =
+            "Enter a 10-digit mobile number.";
+
+        mobileMessage.className =
+            "mobile-message";
+
+        return;
+    }
+
+
+    if(digits.length < 10){
+
+        mobileMessage.textContent =
+            "⚠️ Please enter " +
+            remaining +
+            " more digit" +
+            (remaining === 1 ? "" : "s") +
+            ".";
+
+        mobileMessage.className =
+            "mobile-message error";
+
+        return;
+    }
+
+
+    if(!/^[6-9]/.test(digits)){
+
+        mobileMessage.textContent =
+            "⚠️ Mobile number should start with 6, 7, 8, or 9.";
+
+        mobileMessage.className =
+            "mobile-message error";
+
+        return;
+    }
+
+
+    mobileMessage.textContent =
+        "✅ 10-digit mobile number entered.";
+
+    mobileMessage.className =
+        "mobile-message success";
+}
+
+
+mobileInput.addEventListener("input", function(){
+
+    this.value =
+        this.value
+        .replace(/[^0-9]/g, "")
+        .slice(0,10);
+
+    updateMobileMessage();
+
+});
+
+
+mobileInput.addEventListener("paste", function(){
+
+    setTimeout(() => {
+
+        this.value =
+            this.value
+            .replace(/[^0-9]/g, "")
+            .slice(0,10);
+
+        updateMobileMessage();
+
+    },0);
+
+});
+
+
+/* Enter key */
+
+mobileInput.addEventListener("keydown", function(event){
+
+    if(event.key !== "Enter"){
+        return;
+    }
+
+    event.preventDefault();
+
+    const digits =
+        mobileInput.value.trim();
+
+
+    if(digits.length < 10){
+
+        updateMobileMessage();
+
+        mobileInput.focus();
+
+        return;
+    }
+
+
+    if(digits.length === 10){
+
+        if(!/^[6-9][0-9]{9}$/.test(digits)){
+
+            mobileMessage.textContent =
+                "⚠️ Mobile number should start with 6, 7, 8, or 9.";
+
+            mobileMessage.className =
+                "mobile-message error";
+
+            mobileInput.focus();
+
+            return;
+        }
+
+
+        document
+        .getElementById("address")
+        .focus();
+
+    }
+
+});
+
+
+/* ================================
+   RATION CARD PHOTO
+================================ */
+
+const rationPhoto =
+    document.getElementById("rationPhoto");
+
+const rationPreviewBox =
+    document.getElementById("rationPreviewBox");
+
+const rationPreview =
+    document.getElementById("rationPreview");
+
+const rationFileName =
+    document.getElementById("rationFileName");
+
+
+rationPhoto.addEventListener("change", function(){
+
+    const file =
+        this.files[0];
+
+
+    if(!file){
+
+        rationPreviewBox.style.display =
+            "none";
+
+        return;
+    }
+
+
+    /* Check file type */
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png"
+    ];
+
+
+    if(!allowedTypes.includes(file.type)){
+
+        alert(
+            "Please upload only JPG, JPEG, or PNG image files."
+        );
+
+        this.value = "";
+
+        rationPreviewBox.style.display =
+            "none";
+
+        return;
+    }
+
+
+    /* Check file size - maximum 2 MB */
+
+    const maxSize =
+        2 * 1024 * 1024;
+
+
+    if(file.size > maxSize){
+
+        alert(
+            "Ration Card photo must be smaller than 2 MB."
+        );
+
+        this.value = "";
+
+        rationPreviewBox.style.display =
+            "none";
+
+        return;
+    }
+
+
+    /* Show preview */
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = function(event){
+
+        rationPreview.src =
+            event.target.result;
+
+        rationFileName.textContent =
+            "Selected file: " + file.name;
+
+        rationPreviewBox.style.display =
+            "block";
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* ================================
+   AADHAAR ELEMENTS
+================================ */
+
+const aadhaarInput =
+    document.getElementById("aadhaar");
+
+const verifyAadhaarBtn =
+    document.getElementById("verifyAadhaarBtn");
+
+const aadhaarStatus =
+    document.getElementById("aadhaarStatus");
+
+
+/* ================================
+   AADHAAR INPUT
+================================ */
+
+aadhaarInput.addEventListener(
+    "input",
+    function(){
+
+        this.value =
+            this.value
+            .replace(/\D/g, "")
+            .slice(0,12);
+
+
+        /* Changing Aadhaar removes previous verification */
+
+        aadhaarVerified =
+            false;
+
+
+        aadhaarStatus.style.display =
+            "none";
+
+    }
+);
+
+
+/* ================================
+   SHOW AADHAAR STATUS
+================================ */
+
+function showAadhaarStatus(
+    message,
+    className
+){
+
+    aadhaarStatus.textContent =
+        message;
+
+    aadhaarStatus.className =
+        "aadhaar-status " + className;
+
+    aadhaarStatus.style.display =
+        "block";
+
+}
+
+
+/* ================================
+   VERIFY AADHAAR
+================================ */
+
+verifyAadhaarBtn.addEventListener(
+    "click",
+    async function(){
+
+        const aadhaar =
+            aadhaarInput.value.trim();
+
+
+        /* Frontend validation */
+
+        if(!/^[0-9]{12}$/.test(aadhaar)){
+
+            showAadhaarStatus(
+                "Please enter exactly 12 digits.",
+                "aadhaar-error"
+            );
+
+            aadhaarVerified =
+                false;
+
+            return;
+        }
+
+
+        /* Loading */
+
+        verifyAadhaarBtn.disabled =
+            true;
+
+        verifyAadhaarBtn.textContent =
+            "Verifying...";
+
+
+        showAadhaarStatus(
+            "Verifying Aadhaar...",
+            "aadhaar-loading"
+        );
+
+
+        try{
+
+            const response =
+                await fetch(
+                    "/api/aadhaar/verify",
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:JSON.stringify({
+                            aadhaar:aadhaar
+                        })
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            /* Success */
+
+            if(
+                response.ok &&
+                result.verified === true
+            ){
+
+                aadhaarVerified =
+                    true;
+
+
+                showAadhaarStatus(
+                    "✓ Aadhaar verified successfully.",
+                    "aadhaar-success"
+                );
+
+            }
+
+
+            /* Failed */
+
+            else{
+
+                aadhaarVerified =
+                    false;
+
+
+                showAadhaarStatus(
+                    result.message ||
+                    "Aadhaar verification failed.",
+                    "aadhaar-error"
+                );
+
+            }
+
+        }
+
+
+        catch(error){
+
+            console.error(
+                "Aadhaar API Error:",
+                error
+            );
+
+
+            aadhaarVerified =
+                false;
+
+
+            showAadhaarStatus(
+                "Unable to connect to the verification server.",
+                "aadhaar-error"
+            );
+
+        }
+
+
+        /* Enable button again */
+
+        verifyAadhaarBtn.disabled =
+            false;
+
+        verifyAadhaarBtn.textContent =
+            "Verify Aadhaar";
+
+    }
+);
+
+
+/* ================================
+   CLIENT REGISTRATION
+================================ */
+
+document
+.getElementById("signupForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+
+    /* Get values */
+
+    const name =
+        document
+        .getElementById("name")
+        .value
+        .trim();
+
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+
+    const mobile =
+        document
+        .getElementById("mobile")
+        .value
+        .trim();
+
+
+    const address =
+        document
+        .getElementById("address")
+        .value
+        .trim();
+
+
+    const rationType =
+        document.querySelector(
+            'input[name="rationType"]:checked'
+        );
+
+
+    /* Validate Name */
+
+    if(!/^[A-Za-z ]+$/.test(name)){
+
+        alert(
+            "Name should contain only letters and spaces."
+        );
+
+        return;
+    }
+
+
+    /* Validate Mobile */
+
+    if(mobile.length < 10){
+
+        alert(
+            "Please enter " +
+            (10 - mobile.length) +
+            " more digit" +
+            ((10 - mobile.length) === 1 ? "" : "s") +
+            " in the mobile number."
+        );
+
+        mobileInput.focus();
+
+        updateMobileMessage();
+
+        return;
+    }
+
+
+    if(!/^[6-9][0-9]{9}$/.test(mobile)){
+
+        alert(
+            "Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9."
+        );
+
+        mobileInput.focus();
+
+        updateMobileMessage();
+
+        return;
+    }
+
+
+    /* Validate Address */
+
+    if(address === ""){
+
+        alert(
+            "Please enter your address."
+        );
+
+        return;
+    }
+
+
+    /* Validate Ration Card Type */
+
+    if(!rationType){
+
+        alert(
+            "Please select your Ration Card Type."
+        );
+
+        return;
+    }
+
+
+    /* Validate Ration Card Photo */
+
+    if(!rationPhoto.files.length){
+
+        alert(
+            "Please upload your Ration Card photo."
+        );
+
+        return;
+    }
+
+
+    const selectedPhoto =
+        rationPhoto.files[0];
+
+
+    if(
+        selectedPhoto.type !== "image/jpeg" &&
+        selectedPhoto.type !== "image/png"
+    ){
+
+        alert(
+            "Please upload only JPG, JPEG, or PNG image files."
+        );
+
+        return;
+    }
+
+
+    /* Maximum 2 MB */
+
+    if(
+        selectedPhoto.size >
+        2 * 1024 * 1024
+    ){
+
+        alert(
+            "Ration Card photo must be smaller than 2 MB."
+        );
+
+        return;
+    }
+
+
+    /* Aadhaar Verification */
+
+    if(!aadhaarVerified){
+
+        alert(
+            "Please verify your Aadhaar before registration."
+        );
+
+        return;
+    }
+
+
+    /* Get Clients */
+
+    let clients =
+        JSON.parse(
+            localStorage.getItem("clients")
+        ) || [];
+
+
+    /* Check Duplicate Mobile */
+
+    const exists =
+        clients.some(
+            client =>
+                client.mobile === mobile
+        );
+
+
+    if(exists){
+
+        alert(
+            "This mobile number is already registered."
+        );
+
+        return;
+    }
+
+
+    /* ================================
+       CONVERT RATION CARD TO BASE64
+    ================================= */
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = function(event){
+
+        const rationCardBase64 =
+            event.target.result;
+
+
+        /* ================================
+           CREATE CLIENT
+        ================================= */
+
+        const client = {
+
+            id:
+                "CLIENT_" + Date.now(),
+
+            name:
+                name,
+
+            email:
+                email,
+
+            mobile:
+                mobile,
+
+            address:
+                address,
+
+            rationType:
+                rationType.value,
+
+            /* Actual image stored as Base64 */
+
+            rationCardPhoto:
+                rationCardBase64,
+
+            /* Keep original filename */
+
+            rationCardFileName:
+                selectedPhoto.name,
+
+            aadhaarVerified:
+                true
+
+        };
+
+
+        /* Add Client */
+
+        clients.push(client);
+
+
+        /* Save Clients */
+
+        localStorage.setItem(
+            "clients",
+            JSON.stringify(clients)
+        );
+
+
+        /* Success */
+
+        alert(
+            "Client Registration Successful!"
+        );
+
+
+        /* Existing redirect */
+
+        window.location.href =
+            "client_login.html";
+
+    };
+
+
+    /* Start Base64 conversion */
+
+    reader.readAsDataURL(
+        selectedPhoto
+    );
+
+});
+
+</script>
+
+</body>
+</html>
