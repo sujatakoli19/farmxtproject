@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payment | FarmXT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-direct_connection">
+<section class="connection-section">
+
+<div class="connection-card">
+
+<h1>🤝 Direct Connection</h1>
+
+<p>Send your enquiry directly to the farmer.</p>
+
+<form id="contactForm">
+
+<label>Your Name</label>
+<input type="text" placeholder="Enter your name" required>
+
+<label>Mobile Number</label>
+<input type="tel"
+maxlength="10"
+placeholder="Enter mobile number"
+required>
+
+<label>Subject</label>
+<input type="text" placeholder="Enter subject" required>
+
+<label>Message</label>
+<textarea placeholder="Write your message..." required></textarea>
+
+<button type="submit">Send Message</button>
+
+</form>
+
+</div>
+
+</section>
+<script>
+
+document.getElementById("contactForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+alert("Your enquiry has been sent successfully!");
+
+this.reset();
+
+});
+
+</script>
+</body>
+
+</html>
