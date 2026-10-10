@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FarmXT | Multiple Purchase Prevention</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="page-multiple_purchase_prevention">
+
+<header>
+
+<div class="logo">
+<img src="logo.jpg">
+<span>FarmXT</span>
+</div>
+
+<nav>
+
+<a href="final.html">Home</a>
+<a href="market_place.html">Marketplace</a>
+<a href="multiple_purchase_prevention.html">Purchase Check</a>
+<a href="contact.html">Contact</a>
+
+</nav>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>🛑 Prevent Multiple Purchases</h2>
+
+<label>Customer Name</label>
+<input type="text" id="customer">
+
+<label>Product Name</label>
+<input type="text" id="product">
+
+<button onclick="purchaseProduct()">
+
+Purchase
+
+</button>
+
+<div id="result">
+
+Purchase status will appear here.
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+©2026 FarmXT | Multiple Purchase Prevention
+
+</footer>
+
+<script>
+
+let purchased=[];
+
+function purchaseProduct(){
+
+let customer=document.getElementById("customer").value.trim();
+let product=document.getElementById("product").value.trim();
+
+if(customer=="" || product==""){
+alert("Please fill all fields");
+return;
+}
+
+let key=customer.toLowerCase()+"-"+product.toLowerCase();
+
+if(purchased.includes(key)){
+
+document.getElementById("result").innerHTML=
+`
+<h3 style="color:red;">❌ Purchase Blocked</h3>
+
+<p>You have already purchased <b>${product}</b>.</p>
+
+<p>Multiple purchases are not allowed.</p>
+`;
+
+return;
+
+}
+
+purchased.push(key);
+
+document.getElementById("result").innerHTML=
+`
+<h3 style="color:#7CFC00;">✅ Purchase Successful</h3>
+
+<p>Customer : <b>${customer}</b></p>
+
+<p>Product : <b>${product}</b></p>
+
+<p>Your purchase has been recorded.</p>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
